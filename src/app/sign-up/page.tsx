@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { CardCompact } from "@/components/card-compact";
+import { SignUpForm } from "@/features/auth/components/sign-up-form";
+import { signInPath } from "@/paths";
 
 const SignUpPage = () => {
   return (
@@ -7,7 +10,12 @@ const SignUpPage = () => {
         title="Sign Up"
         description="Create an account to get started"
         className="w-full max-w-[420px] animate-fade-from-top"
-        content={"Sign Up Form"}
+        content={<SignUpForm />}
+        footer={
+          <Link href={signInPath()} className="text-sm text-muted-foreground">
+            Have an account? Sign in
+          </Link>
+        }
       />
     </div>
   );
