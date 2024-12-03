@@ -1,11 +1,15 @@
 import { getTickets } from "../queries/get-tickets";
 import { TicketItem } from "./ticket-item";
 
-const TicketList = async () => {
-  const tickets = await getTickets();
+type TicketListProps = {
+  userId?: string;
+};
+
+const TicketList = async ({ userId }: TicketListProps) => {
+  const tickets = await getTickets(userId);
 
   return (
-    <div className="animate-fade-from-top flex flex-1 flex-col items-center gap-y-4">
+    <div className="flex flex-1 animate-fade-from-top flex-col items-center gap-y-4">
       {tickets.map((ticket) => (
         <TicketItem key={ticket.id} ticket={ticket} />
       ))}

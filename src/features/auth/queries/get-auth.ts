@@ -2,42 +2,15 @@
 
 import { cookies } from "next/headers";
 import { cache } from "react";
-import { lucia } from "@/lib/lucia";
+import { validateSessionToken } from "@/lib/session";
 
 export const getAuth = cache(async () => {
-  const sessionId =
-    (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
+  const token = (await cookies()).get("session")?.value ?? null;
 
-  if (!sessionId) {
-    return {
-      user: null,
-      session: null,
-    };
+  if (token === null) {
+    return { user: null, session: null };
   }
 
-  const result = await lucia.validateSession(sessionId);
-
-  try {
-    if (result.session && result.session.fresh) {
-      const sessionCookie = lucia.createSessionCookie(result.session.id);
-      (await cookies()).set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    }
-
-    if (!result.session) {
-      const sessionCookie = lucia.createBlankSessionCookie();
-      (await cookies()).set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    }
-  } catch {
-    // do nothing
-  }
-
+  const result = await validateSessionToken(token);
   return result;
 });
