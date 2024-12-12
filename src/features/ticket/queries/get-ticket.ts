@@ -11,6 +11,34 @@ export const getTicket = async (id: string) => {
           username: true,
         },
       },
+      comments: {
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+          ticket: {
+            select: {
+              id: true,
+            },
+          },
+          user: {
+            select: {
+              username: true,
+            },
+          },
+          _count: {
+            select: {
+              replies: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
     },
   });
 };

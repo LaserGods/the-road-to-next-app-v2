@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import clsx from "clsx";
 import {
   LucideArrowUpRightFromSquare,
@@ -19,18 +18,20 @@ import { isOwner } from "@/features/auth/utils/is-owner";
 import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
+import { TicketWithMetadata } from "../types";
 import { TicketMoreMenu } from "./ticket-more-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { CommentItem } from "@/features/comment/components/comment-item";
+import { Prisma } from "@prisma/client";
 
 type TicketItemProps = {
-  ticket: Prisma.TicketGetPayload<{
-    include: {
-      user: {
-        select: {
-          username: true;
-        };
-      };
-    };
-  }>;
+  ticket: TicketWithMetadata;
   isDetail?: boolean;
 };
 
@@ -74,7 +75,7 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
     >
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="flex gap-x-2 overflow-hidden">
+          <CardTitle className="flex gap-x-2">
             <span>{TICKET_ICONS[ticket.status]}</span>
             <span className="truncate">{ticket.title}</span>
           </CardTitle>
@@ -88,13 +89,56 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
             {ticket.content}
           </span>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <p className="text-sm text-muted-foreground">
-            {ticket.deadline} by {ticket.user.username}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {toCurrencyFromCent(ticket.bounty)}
-          </p>
+        <CardFooter className="block">
+          <div className="flex justify-between">
+            <div className="flex flex-col gap-y-1">
+              <div className="flex items-center gap-x-1.5">
+                <Avatar className="h-6 w-6">
+                  <AvatarFallback className="text-xs">
+                    {ticket.user.username[0].toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-thin text-muted-foreground">
+                  {ticket.user.username}
+                </span>
+              </div>
+              <p className="self-center text-sm text-muted-foreground">
+                {ticket.deadline}
+              </p>
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <p className="text-sm text-muted-foreground">
+                {toCurrencyFromCent(ticket.bounty)} bounty
+              </p>
+              <div className="flex gap-x-1">
+                <span className="text-sm font-thin text-muted-foreground">
+                  {ticket._count?.comments > 0 ? (
+                    ticket._count.comments < 2 ? (
+                      <p>{ticket._count.comments} comment</p>
+                    ) : (
+                      <p>{ticket._count.comments} comments</p>
+                    )
+                  ) : (
+                    <p>0 comments</p>
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="pt-3">
+            {ticket._count.comments > 0 ? (
+              <Accordion type="single" collapsible>
+                <AccordionItem value="comments">
+                  <AccordionTrigger>Comments</AccordionTrigger>
+                  {ticket.comments.map((comment) => (
+                    <AccordionContent key={comment.id}>
+                      <CommentItem ticketId={comment.ticket.id} />
+                    </AccordionContent>
+                  ))}
+                </AccordionItem>
+              </Accordion>
+            ) : null}
+          </div>
         </CardFooter>
       </Card>
 
