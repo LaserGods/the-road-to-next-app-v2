@@ -5,11 +5,6 @@ export type CommentWithMetadata = Prisma.CommentGetPayload<{
     user: {
       select: { username: true };
     };
-    ticket: {
-      select: {
-        id: true;
-      };
-    };
     _count: {
       select: {
         replies: true;

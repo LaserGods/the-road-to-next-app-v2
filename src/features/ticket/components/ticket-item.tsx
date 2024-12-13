@@ -27,8 +27,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CommentItem } from "@/features/comment/components/comment-item";
-import { Prisma } from "@prisma/client";
+import { Comments } from "@/features/comment/components/comments";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;
@@ -130,11 +129,9 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
               <Accordion type="single" collapsible>
                 <AccordionItem value="comments">
                   <AccordionTrigger>Comments</AccordionTrigger>
-                  {ticket.comments.map((comment) => (
-                    <AccordionContent key={comment.id}>
-                      <CommentItem ticketId={comment.ticket.id} />
-                    </AccordionContent>
-                  ))}
+                  <AccordionContent>
+                    <Comments ticketId={ticket.id} />
+                  </AccordionContent>
                 </AccordionItem>
               </Accordion>
             ) : null}
