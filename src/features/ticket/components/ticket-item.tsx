@@ -28,6 +28,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Comments } from "@/features/comment/components/comments";
+import { CommentCreateForm } from "@/features/comment/components/comment-create-form";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;
@@ -123,6 +124,9 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
                 </span>
               </div>
             </div>
+          </div>
+          <div className="pt-3">
+            <CommentCreateForm ticketId={ticket.id} />
           </div>
           <div className="pt-3">
             {ticket._count.comments > 0 ? (
