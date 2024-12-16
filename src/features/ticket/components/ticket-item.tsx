@@ -5,6 +5,13 @@ import {
   LucidePencil,
 } from "lucide-react";
 import Link from "next/link";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,20 +22,13 @@ import {
 } from "@/components/ui/card";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
+import { CommentCreateForm } from "@/features/comment/components/comment-create-form";
+import { Comments } from "@/features/comment/components/comments";
 import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
 import { TicketWithMetadata } from "../types";
 import { TicketMoreMenu } from "./ticket-more-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Comments } from "@/features/comment/components/comments";
-import { CommentCreateForm } from "@/features/comment/components/comment-create-form";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;

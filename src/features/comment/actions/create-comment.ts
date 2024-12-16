@@ -1,5 +1,6 @@
 "use server";
 
+import { z } from "zod";
 import {
   ActionState,
   fromErrorToActionState,
@@ -7,9 +8,6 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { prisma } from "@/lib/prisma";
-import { ticketsPath } from "@/paths";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
 const createCommentSchema = z.object({
   content: z
@@ -42,8 +40,6 @@ export const createComment = async (
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
-
-  revalidatePath(ticketsPath());
 
   return toActionState("SUCCESS", "Comment posted to ticket");
 };

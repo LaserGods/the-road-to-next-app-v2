@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Card,
@@ -6,10 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import clsx from "clsx";
 import { CommentWithMetadata } from "../types";
-import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { isOwner } from "@/features/auth/utils/is-owner";
+// import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+// import { isOwner } from "@/features/auth/utils/is-owner";
 
 type CommentItemProps = {
   comment: CommentWithMetadata;
@@ -17,8 +17,8 @@ type CommentItemProps = {
 };
 
 const CommentItem = async ({ comment, isDetail }: CommentItemProps) => {
-  const { user } = await getAuthOrRedirect();
-  const isCommentOwner = isOwner(user, comment);
+  // const { user } = await getAuthOrRedirect();
+  // const isCommentOwner = isOwner(user, comment);
 
   const timeSince = () => {
     const commentUnixDate = comment.createdAt.getTime() / 1000;
@@ -48,7 +48,7 @@ const CommentItem = async ({ comment, isDetail }: CommentItemProps) => {
       })}
     >
       {!isDetail ? (
-        <div className="flex w-full flex-col gap-y-1">
+        <div className="flex w-full flex-col gap-y-1 p-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-x-1.5">
               <Avatar className="h-6 w-6">
