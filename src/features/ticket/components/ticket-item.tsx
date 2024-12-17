@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/card";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
-import { CommentCreateForm } from "@/features/comment/components/comment-create-form";
+import { CommentUpsertForm } from "@/features/comment/components/comment-upsert-form";
 import { Comments } from "@/features/comment/components/comments";
 import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
@@ -108,26 +108,26 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
             </div>
             <div className="flex flex-col gap-y-1">
               <p className="text-sm text-muted-foreground">
-                {toCurrencyFromCent(ticket.bounty)} bounty
+                Bounty: {toCurrencyFromCent(ticket.bounty)}
               </p>
-              <div className="flex gap-x-1">
-                <span className="text-sm font-thin text-muted-foreground">
-                  {ticket._count?.comments > 0 ? (
-                    ticket._count.comments < 2 ? (
-                      <p>{ticket._count.comments} comment</p>
-                    ) : (
-                      <p>{ticket._count.comments} comments</p>
-                    )
+              <span className="text-right text-sm font-thin text-muted-foreground">
+                {ticket._count?.comments > 0 ? (
+                  ticket._count.comments < 2 ? (
+                    <p>{ticket._count.comments} comment</p>
                   ) : (
-                    <p>0 comments</p>
-                  )}
-                </span>
-              </div>
+                    <p>{ticket._count.comments} comments</p>
+                  )
+                ) : (
+                  <p>0 comments</p>
+                )}
+              </span>
             </div>
           </div>
-          <div className="pt-3">
-            <CommentCreateForm ticketId={ticket.id} />
-          </div>
+          {isDetail ? (
+            <div className="pt-3">
+              <CommentUpsertForm ticketId={ticket.id} />
+            </div>
+          ) : null}
           <div className="pt-3">
             {ticket._count.comments > 0 ? (
               <Accordion type="single" collapsible>

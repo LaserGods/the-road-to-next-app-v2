@@ -1,5 +1,7 @@
-import clsx from "clsx";
+import { LucidePencil } from "lucide-react";
+import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,9 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { isOwner } from "@/features/auth/utils/is-owner";
+import { cn } from "@/lib/utils";
+import { commentEditPath } from "@/paths";
 import { CommentWithMetadata } from "../types";
-// import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-// import { isOwner } from "@/features/auth/utils/is-owner";
 
 type CommentItemProps = {
   comment: CommentWithMetadata;
@@ -17,14 +21,24 @@ type CommentItemProps = {
 };
 
 const CommentItem = async ({ comment, isDetail }: CommentItemProps) => {
-  // const { user } = await getAuthOrRedirect();
-  // const isCommentOwner = isOwner(user, comment);
+  const { user } = await getAuthOrRedirect();
+  const isCommentOwner = isOwner(user, comment);
 
   const timeSince = () => {
-    const commentUnixDate = comment.createdAt.getTime() / 1000;
+    const CommentUpsertUnixDate = comment.createdAt.getTime() / 1000;
+    const commentUpdateUnixDate = comment.updatedAt.getTime() / 1000;
+
+    const compareCreateUpdateDate = () => {
+      if (CommentUpsertUnixDate > commentUpdateUnixDate) {
+        return CommentUpsertUnixDate;
+      } else {
+        return commentUpdateUnixDate;
+      }
+    };
+
     const nowUnixDate = new Date().getTime() / 1000;
 
-    const seconds = Math.floor((nowUnixDate - commentUnixDate) / 1);
+    const seconds = Math.floor((nowUnixDate - compareCreateUpdateDate()) / 1);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
@@ -40,13 +54,21 @@ const CommentItem = async ({ comment, isDetail }: CommentItemProps) => {
     }
   };
 
-  return (
-    <div
-      className={clsx("flex w-full gap-x-1", {
-        "max-w-[580px]": isDetail,
-        "max-w-[420px]": !isDetail,
-      })}
+  const editButton = isCommentOwner ? (
+    <Link
+      prefetch
+      href={commentEditPath(comment.ticketId, comment.id)}
+      className={cn(
+        buttonVariants({ variant: "ghost" }),
+        "h-4 w-4 p-3 [&_svg]:size-4",
+      )}
     >
+      <LucidePencil />
+    </Link>
+  ) : null;
+
+  return (
+    <>
       {!isDetail ? (
         <div className="flex w-full flex-col gap-y-1 p-2">
           <div className="flex items-center justify-between">
@@ -60,14 +82,19 @@ const CommentItem = async ({ comment, isDetail }: CommentItemProps) => {
                 {comment.user ? comment.user.username : "user deleted"}
               </span>
             </div>
-            <span className="text-sm text-muted-foreground">{timeSince()}</span>
+            <div className="flex items-center gap-x-2">
+              <span className="text-sm text-muted-foreground">
+                {timeSince()}
+              </span>
+              {editButton}
+            </div>
           </div>
-          <p className="whitespace-pre-line text-pretty text-sm">
+          <p className="whitespace-pre-line text-pretty pt-1 text-sm">
             {comment.content}
           </p>
         </div>
       ) : (
-        <Card className="w-full">
+        <Card className="w-full max-w-[580px]">
           <CardHeader>
             <CardTitle className="flex gap-x-2">
               <Avatar className="h-6 w-6">
@@ -99,7 +126,7 @@ const CommentItem = async ({ comment, isDetail }: CommentItemProps) => {
           </CardFooter>
         </Card>
       )}
-    </div>
+    </>
   );
 };
 
