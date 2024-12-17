@@ -20,7 +20,7 @@ const SidebarItem = ({ isOpen, isActive, navItem }: SidebarItemProps) => {
         href={navItem.href}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "group relative flex h-12 justify-start",
+          "group relative flex h-12 justify-start [&_svg]:size-5",
           isActive && "bg-muted font-bold hover:bg-muted",
         )}
       >

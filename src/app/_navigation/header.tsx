@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { homePath, signInPath, singUpPath } from "@/paths";
 import { AccountDropdown } from "./account-dropdown";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
   const { user, isFetched } = useAuth();
@@ -39,7 +40,7 @@ const Header = () => {
       <div className="align-items flex gap-x-2">
         <Link
           href={homePath()}
-          className={buttonVariants({ variant: "ghost" })}
+          className={cn(buttonVariants({ variant: "ghost" }), "[&_svg]:size-6")}
         >
           <LucideKanban />
           <h1 className="text-lg font-semibold">TicketBounty</h1>

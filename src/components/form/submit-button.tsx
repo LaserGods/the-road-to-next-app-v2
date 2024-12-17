@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 
 type SubmitButtonProps = {
   label?: string;
-  icon?: React.ReactElement;
+  icon?: React.ReactElement<React.SVGProps<SVGSVGElement>, "svg">;
   variant?:
     | "default"
     | "destructive"
@@ -43,7 +43,9 @@ const SubmitButton = ({
             "ml-2": !!label,
           })}
         >
-          {cloneElement(icon)}
+          {cloneElement(icon, {
+            className: "h-4 w-4",
+          })}
         </span>
       ) : null}
     </Button>
