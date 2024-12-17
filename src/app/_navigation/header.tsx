@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/use-auth";
+import { cn } from "@/lib/utils";
 import { homePath, signInPath, singUpPath } from "@/paths";
 import { AccountDropdown } from "./account-dropdown";
-import { cn } from "@/lib/utils";
 
 const Header = () => {
   const { user, isFetched } = useAuth();
