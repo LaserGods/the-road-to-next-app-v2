@@ -3,16 +3,21 @@ import { CommentItem } from "./comment-item";
 
 type CommentsProps = {
   ticketId: string;
+  isDetail?: boolean;
 };
 
-const Comments = async ({ ticketId }: CommentsProps) => {
+const Comments = async ({ ticketId, isDetail }: CommentsProps) => {
   const comments = await getComments(ticketId);
 
   return (
     <>
-      {comments.map((comment) => (
-        <CommentItem key={comment.id} comment={comment} />
-      ))}
+      {comments.map((comment) =>
+        isDetail ? (
+          <CommentItem key={comment.id} comment={comment} isDetail />
+        ) : (
+          <CommentItem key={comment.id} comment={comment} />
+        ),
+      )}
     </>
   );
 };

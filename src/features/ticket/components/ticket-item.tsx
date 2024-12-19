@@ -134,7 +134,11 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
                 <AccordionItem value="comments">
                   <AccordionTrigger>Comments</AccordionTrigger>
                   <AccordionContent>
-                    <Comments ticketId={ticket.id} />
+                    {isDetail ? (
+                      <Comments ticketId={ticket.id} isDetail />
+                    ) : (
+                      <Comments ticketId={ticket.id} />
+                    )}
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
