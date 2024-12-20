@@ -10,9 +10,6 @@ type CommentMoreMenuProps = {
 };
 
 const CommentDeleteButton = ({ id }: CommentMoreMenuProps) => {
-  // const { user } = await getAuthOrRedirect();
-  // const isCommentOwner = isOwner(user, comment);
-
   const [deleteButton, deleteDialog] = useConfirmDialog({
     action: deleteComment.bind(null, id),
     trigger: (

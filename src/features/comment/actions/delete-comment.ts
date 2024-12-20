@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { setCookieByKey } from "@/actions/cookies";
 import {
   fromErrorToActionState,
   toActionState,
@@ -10,7 +9,8 @@ import {
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
-import { ticketPath } from "@/paths";
+import { homePath, ticketPath } from "@/paths";
+import { setCookieByKey } from "@/actions/cookies";
 
 export const deleteComment = async (id: string) => {
   const { user } = await getAuthOrRedirect();
@@ -38,5 +38,5 @@ export const deleteComment = async (id: string) => {
 
   await setCookieByKey("toast", "Comment deleted");
 
-  return redirect(ticketPath(comment.ticketId));
+  return redirect(homePath());
 };
