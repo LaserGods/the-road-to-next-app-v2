@@ -1,31 +1,38 @@
 "use client";
 
+import { Comment } from "@prisma/client";
 import { useActionState } from "react";
 import { FieldError } from "@/components/form/field-error";
 import { Form } from "@/components/form/form";
 import { SubmitButton } from "@/components/form/submit-button";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 import { Textarea } from "@/components/ui/textarea";
-import { createComment } from "../actions/create-comment";
+import { upsertComment } from "../actions/upsert-comment";
 
-type CommentCreateFormProps = {
+type CommentUpsertFormProps = {
   ticketId: string;
+  comment?: Comment;
 };
 
-const CommentCreateForm = ({ ticketId }: CommentCreateFormProps) => {
+const CommentUpsertForm = ({ ticketId, comment }: CommentUpsertFormProps) => {
   const [actionState, action] = useActionState(
-    createComment.bind(null, ticketId),
+    upsertComment.bind(null, ticketId, comment?.id),
     EMPTY_ACTION_STATE,
   );
 
   return (
     <Form action={action} actionState={actionState}>
-      <Textarea name="content" placeholder="What's on your mind ..." />
+      <Textarea
+        name="content"
+        defaultValue={
+          (actionState.payload?.get("content") as string) ?? comment?.content
+        }
+      />
       <FieldError actionState={actionState} name="content" />
 
-      <SubmitButton label="Comment" />
+      <SubmitButton label={comment ? "Edit" : "Comment"} />
     </Form>
   );
 };
 
-export { CommentCreateForm };
+export { CommentUpsertForm };
