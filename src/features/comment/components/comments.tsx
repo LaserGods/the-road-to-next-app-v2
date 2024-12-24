@@ -6,17 +6,17 @@ import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { cn } from "@/lib/utils";
 import { commentEditPath } from "@/paths";
-import { getComments } from "../queries/get-comments";
+import { CommentWithMetadata } from "../types";
 import { CommentDeleteButton } from "./comment-delete-button";
 import { CommentItem } from "./comment-item";
 import { CommentUpsertForm } from "./comment-upsert-form";
 
 type CommentsProps = {
   ticketId: string;
+  comments?: CommentWithMetadata[];
 };
 
-const Comments = async ({ ticketId }: CommentsProps) => {
-  const comments = await getComments(ticketId);
+const Comments = async ({ ticketId, comments = [] }: CommentsProps) => {
   const { user } = await getAuth();
 
   return (
