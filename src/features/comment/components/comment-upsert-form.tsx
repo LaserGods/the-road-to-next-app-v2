@@ -5,28 +5,42 @@ import { useActionState } from "react";
 import { FieldError } from "@/components/form/field-error";
 import { Form } from "@/components/form/form";
 import { SubmitButton } from "@/components/form/submit-button";
-import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
+import {
+  ActionState,
+  EMPTY_ACTION_STATE,
+} from "@/components/form/utils/to-action-state";
 import { Textarea } from "@/components/ui/textarea";
 import { upsertComment } from "../actions/upsert-comment";
+import { CommentWithMetadata } from "../types";
 
 type CommentUpsertFormProps = {
   ticketId: string;
   comment?: Comment;
+  onCreateComment?: (comment: CommentWithMetadata) => void;
 };
 
-const CommentUpsertForm = ({ ticketId, comment }: CommentUpsertFormProps) => {
+const CommentUpsertForm = ({
+  ticketId,
+  comment,
+  onCreateComment,
+}: CommentUpsertFormProps) => {
   const [actionState, action] = useActionState(
     upsertComment.bind(null, ticketId, comment?.id),
     EMPTY_ACTION_STATE,
   );
 
+  const handleSuccess = (actionState: ActionState) => {
+    onCreateComment?.(actionState.data as CommentWithMetadata);
+  };
+
   return (
-    <Form action={action} actionState={actionState}>
+    <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
       <Textarea
         name="content"
         defaultValue={
           (actionState.payload?.get("content") as string) ?? comment?.content
         }
+        placeholder="What's on your mind ..."
       />
       <FieldError actionState={actionState} name="content" />
 
