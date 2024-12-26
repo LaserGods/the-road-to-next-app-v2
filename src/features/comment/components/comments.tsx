@@ -23,12 +23,20 @@ type CommentsProps = {
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
   const [comments, setComments] = useState(paginatedComments.list);
+  const [metadata, setMetadata] = useState(paginatedComments.metadata);
 
   const handleMore = async () => {
-    const morePaginatedComments = await getComments(ticketId);
+    const morePaginatedComments = await getComments(ticketId, comments.length);
     const moreComments = morePaginatedComments.list;
 
     setComments([...comments, ...moreComments]);
+    setMetadata(morePaginatedComments.metadata);
+  };
+
+  const handleDeleteComment = (id: string) => {
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.id !== id),
+    );
   };
 
   return (
@@ -45,7 +53,13 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
             comment={comment}
             buttons={[
               ...(comment.isOwner
-                ? [<CommentDeleteButton key="0" id={comment.id} />]
+                ? [
+                    <CommentDeleteButton
+                      key="0"
+                      id={comment.id}
+                      onDeleteComment={handleDeleteComment}
+                    />,
+                  ]
                 : []),
               ...(comment.isOwner
                 ? [
@@ -66,9 +80,11 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
       </div>
 
       <div className="ml-8 flex flex-col justify-center">
-        <Button variant={"ghost"} onClick={handleMore}>
-          More
-        </Button>
+        {metadata.hasNextPage && (
+          <Button variant={"ghost"} onClick={handleMore}>
+            More
+          </Button>
+        )}
       </div>
     </>
   );
