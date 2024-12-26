@@ -1,9 +1,13 @@
+"use client";
+
 import { LucidePencil } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { CardCompact } from "@/components/card-compact";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { commentEditPath } from "@/paths";
+import { getComments } from "../queries/get-comments";
 import { CommentWithMetadata } from "../types";
 import { CommentDeleteButton } from "./comment-delete-button";
 import { CommentItem } from "./comment-item";
@@ -11,10 +15,22 @@ import { CommentUpsertForm } from "./comment-upsert-form";
 
 type CommentsProps = {
   ticketId: string;
-  comments?: CommentWithMetadata[];
+  paginatedComments: {
+    list: CommentWithMetadata[];
+    metadata: { count: number; hasNextPage: boolean };
+  };
 };
 
-const Comments = ({ ticketId, comments = [] }: CommentsProps) => {
+const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
+  const [comments, setComments] = useState(paginatedComments.list);
+
+  const handleMore = async () => {
+    const morePaginatedComments = await getComments(ticketId);
+    const moreComments = morePaginatedComments.list;
+
+    setComments([...comments, ...moreComments]);
+  };
+
   return (
     <>
       <CardCompact
@@ -47,6 +63,12 @@ const Comments = ({ ticketId, comments = [] }: CommentsProps) => {
             ]}
           />
         ))}
+      </div>
+
+      <div className="ml-8 flex flex-col justify-center">
+        <Button variant={"ghost"} onClick={handleMore}>
+          More
+        </Button>
       </div>
     </>
   );
