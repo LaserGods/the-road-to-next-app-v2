@@ -24,7 +24,11 @@ type UseConfirmDialogArgs = {
   title?: string;
   description?: string;
   action: () => Promise<ActionState>;
-  trigger: React.ReactElement<React.SVGProps<SVGSVGElement>, "svg">;
+  trigger:
+    | React.ReactElement<React.SVGProps<SVGSVGElement>, "svg">
+    | ((
+        isPending: boolean,
+      ) => React.ReactElement<React.SVGProps<SVGSVGElement>, "svg">);
   onSuccess?: (actionState: ActionState) => void;
 };
 
@@ -37,13 +41,16 @@ const useConfirmDialog = ({
 }: UseConfirmDialogArgs) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const dialogTrigger = cloneElement(trigger, {
-    onClick: () => setIsOpen((state) => !state),
-  });
-
   const [actionState, formAction, isPending] = useActionState(
     action,
     EMPTY_ACTION_STATE,
+  );
+
+  const dialogTrigger = cloneElement(
+    typeof trigger === "function" ? trigger(isPending) : trigger,
+    {
+      onClick: () => setIsOpen((state) => !state),
+    },
   );
 
   const toastRef = useRef<string | number | null>(null);
