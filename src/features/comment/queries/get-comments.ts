@@ -4,20 +4,21 @@ import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { prisma } from "@/lib/prisma";
 
-export const getComments = async (ticketId: string, offset?: number) => {
+export const getComments = async (ticketId: string, cursor?: string) => {
   const { user } = await getAuth();
 
   const where = {
     ticketId,
+    id: {
+      lt: cursor,
+    },
   };
 
-  const skip = offset ?? 0;
   const take = 2;
 
   const [comments, count] = await prisma.$transaction([
     prisma.comment.findMany({
       where,
-      skip,
       take,
       include: {
         user: {
@@ -26,9 +27,7 @@ export const getComments = async (ticketId: string, offset?: number) => {
           },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
     }),
     prisma.comment.count({
       where,
@@ -42,7 +41,8 @@ export const getComments = async (ticketId: string, offset?: number) => {
     })),
     metadata: {
       count,
-      hasNextPage: count > skip + take,
+      hasNextPage: true, // TODO: implement hasNextPage
+      cursor: comments.at(-1)?.id,
     },
   };
 };
