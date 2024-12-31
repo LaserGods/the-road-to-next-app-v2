@@ -7,6 +7,7 @@ import { CardCompact } from "@/components/card-compact";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { commentEditPath } from "@/paths";
+import { PaginatedData } from "@/types/pagination";
 import { getComments } from "../queries/get-comments";
 import { CommentWithMetadata } from "../types";
 import { CommentDeleteButton } from "./comment-delete-button";
@@ -15,10 +16,7 @@ import { CommentUpsertForm } from "./comment-upsert-form";
 
 type CommentsProps = {
   ticketId: string;
-  paginatedComments: {
-    list: CommentWithMetadata[];
-    metadata: { count: number; hasNextPage: boolean; cursor?: string };
-  };
+  paginatedComments: PaginatedData<CommentWithMetadata>;
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
