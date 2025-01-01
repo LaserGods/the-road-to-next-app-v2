@@ -1,8 +1,8 @@
 "use client";
 
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { LucidePencil } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { CardCompact } from "@/components/card-compact";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,27 +20,25 @@ type CommentsProps = {
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
-  const [comments, setComments] = useState(paginatedComments.list);
-  const [metadata, setMetadata] = useState(paginatedComments.metadata);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["comments", ticketId],
+      queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
+      initialPageParam: undefined as string | undefined,
+      getNextPageParam: (lastPage) =>
+        lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
+    });
 
-  const handleMore = async () => {
-    const morePaginatedComments = await getComments(ticketId, metadata.cursor);
-    const moreComments = morePaginatedComments.list;
+  const comments = data?.pages.flatMap((page) => page.list) ?? [];
 
-    setComments([...comments, ...moreComments]);
-    setMetadata(morePaginatedComments.metadata);
-  };
+  const handleMore = async () => fetchNextPage();
 
   const handleDeleteComment = (id: string) => {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== id),
-    );
+    // TODO
   };
 
   const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
-    if (!comment) return;
-
-    setComments((prevComments) => [comment, ...prevComments]);
+    // TODO
   };
 
   return (
@@ -89,8 +87,12 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
       </div>
 
       <div className="ml-8 flex flex-col justify-center">
-        {metadata.hasNextPage && (
-          <Button variant={"ghost"} onClick={handleMore}>
+        {hasNextPage && (
+          <Button
+            variant={"ghost"}
+            onClick={handleMore}
+            disabled={isFetchingNextPage}
+          >
             More
           </Button>
         )}
