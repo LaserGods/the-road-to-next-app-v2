@@ -10,7 +10,8 @@
     "lint-fix": "next lint --fix",
     "type": "tsc --noEmit",
     "postinstall": "prisma generate",
-    "prisma-seed": "tsx prisma/seed.ts"
+    "prisma-seed": "tsx prisma/seed.ts",
+    "email": "email dev --dir src/emails"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.0.0",
@@ -41,6 +42,7 @@
     "react-day-picker": "9.5.1",
     "react-dom": "19.0.0",
     "react-intersection-observer": "^9.15.1",
+    "resend": "^4.1.2",
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
