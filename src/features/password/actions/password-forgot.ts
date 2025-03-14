@@ -7,8 +7,8 @@ import {
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { prisma } from "@/lib/prisma";
-import { generatePasswordResetLink } from "../utils/generate-password-reset-link";
 import { sendEmailPasswordReset } from "../emails/send-email-password-reset";
+import { generatePasswordResetLink } from "../utils/generate-password-reset-link";
 
 const passwordForgotSchema = z.object({
   email: z.string().min(1, { message: "Is required." }).max(191).email(),
