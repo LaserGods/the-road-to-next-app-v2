@@ -28,7 +28,7 @@ const CommentEditPage = async ({ params }: CommentEditPageProps) => {
       <CardCompact
         title="Edit Comment"
         description="Edit your comment"
-        className="w-full max-w-[420] animate-fade-from-top"
+        className="w-full max-w-420 animate-fade-from-top"
         content={
           <CommentUpsertForm ticketId={comment.ticketId} comment={comment} />
         }
