@@ -36,15 +36,15 @@ Basic Checks:
 
 UI Elements:
 
-[ ] Implement forgot password page
-[ ] Forgot password form for existing users
-[ ] Chage password form on the the users account page
-[ ] Other UI elements?
+- [x] Implement forgot password page
+- [x] Forgot password form for existing users
+- [x] Chage password form on the the users account page
+- [ ] Other UI elements (Password strength meter)?
 
 Actions and Flows:
 
-1. Forgot password flow - redirect user to password forgot page - send email with short-livedreset token
-2. Reset password flow - user goes to account password page and requests a password reset token - user will receive email with reset token
+1. Forgot password flow - redirect user to the public password forgot page - send email with short-lived reset token
+2. Change password flow - user goes to protected account password page and requests a password reset token - user will receive email with short-lived reset token
 
 Backend Considerations:
 
@@ -54,5 +54,5 @@ Backend Considerations:
 
 Database Design:
 
-[ ] Password reset session table
-[ ] Email verification request table
+- [x] Password reset session table
+- [ ] Email verification request table
