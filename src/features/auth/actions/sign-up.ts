@@ -13,6 +13,8 @@ import { prisma } from "@/lib/prisma";
 import { createSessionToken } from "@/lib/session";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
+import { getBaseUrl } from "@/utils/url";
+import { sendEmailWelcome } from "../emails/send-email-welcome";
 import { setSessionCookie } from "../utils/session-cookie";
 
 const signUpSchema = z
@@ -59,6 +61,10 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
     const session = await createSessionToken(sessionToken, user.id);
 
     await setSessionCookie(sessionToken, session.expiresAt);
+
+    const loginLink = getBaseUrl() + ticketsPath(); // TODO: redirect to email verification page
+
+    await sendEmailWelcome(user.username, user.email, `${loginLink}`);
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
