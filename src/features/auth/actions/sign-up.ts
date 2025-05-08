@@ -9,12 +9,11 @@ import {
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { hashPassword } from "@/features/password/utils/hash-and-verify";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { createSessionToken } from "@/lib/session";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
-import { getBaseUrl } from "@/utils/url";
-import { sendEmailWelcome } from "../emails/send-email-welcome";
 import { setSessionCookie } from "../utils/session-cookie";
 
 const signUpSchema = z
@@ -62,9 +61,12 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
 
     await setSessionCookie(sessionToken, session.expiresAt);
 
-    const loginLink = getBaseUrl() + ticketsPath(); // TODO: redirect to email verification page
-
-    await sendEmailWelcome(user.username, user.email, `${loginLink}`);
+    await inngest.send({
+      name: "app/signup.complete",
+      data: {
+        userId: user.id,
+      },
+    });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
