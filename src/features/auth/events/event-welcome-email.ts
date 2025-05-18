@@ -1,6 +1,6 @@
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
-import { ticketsPath } from "@/paths";
+import { signInPath } from "@/paths";
 import { getBaseUrl } from "@/utils/url";
 import { sendEmailWelcome } from "../emails/send-email-welcome";
 
@@ -20,7 +20,7 @@ export const signupEvent = inngest.createFunction(
       where: { id: userId },
     });
 
-    const loginLink = getBaseUrl() + ticketsPath();
+    const loginLink = getBaseUrl() + signInPath();
 
     const emailWelcomeDelay = 5 * 60 * 1000; // 5 minutes
 
