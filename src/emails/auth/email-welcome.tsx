@@ -5,6 +5,7 @@ import {
   Head,
   Hr,
   Html,
+  Link,
   Preview,
   Section,
   Tailwind,
@@ -15,10 +16,6 @@ type EmailWelcomeProps = {
   toName: string;
   loginUrl: string;
 };
-
-//   const baseUrl = process.env.VERCEL_URL
-//     ? `https://${process.env.VERCEL_URL}`
-//     : '';
 
 export const EmailWelcome = ({ toName, loginUrl }: EmailWelcomeProps) => {
   const previewText = `Welcome to TicketBounty, ${toName}!`;
@@ -49,8 +46,17 @@ export const EmailWelcome = ({ toName, loginUrl }: EmailWelcomeProps) => {
             <Section className="text-center">
               <Hr className="mx-0 my-[24px] w-full border border-solid border-[#020618]" />
               <Text className="text-[16px] text-black">
-                We&apos;re excited to have you on board. Let us know if you ever
-                have questions!
+                Thanks for checking out the app! This is a demo app I built
+                while completing The Road to Next course by Robin Wieruch. The
+                app is functional, but not production ready. Please do not
+                submit any sensitive data or pay any bounties. Due to the nature
+                of the app, your tickets and account could be deleted at any
+                time. If you have any questions, or concerns{" "}
+                <Link href="https://github.com/LaserGods/the-road-to-next-app-v2/issues">
+                  please create an issue on GitHub.
+                </Link>
+                <br />
+                Thanks again and stay tuned for more updates!
               </Text>
             </Section>
           </Container>
