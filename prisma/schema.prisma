@@ -63,6 +63,7 @@ model Ticket {
     userId    String
     user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     comments  Comment[]
+    replies   Reply[]
 
     @@index([userId])
 }
@@ -97,6 +98,10 @@ model Reply {
     comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
     userId    String?
     user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+    ticketId  String
+    ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
-    @@index([commentId, userId])
+    @@index([commentId])
+    @@index([userId])
+    @@index([ticketId])
 }
