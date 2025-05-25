@@ -14,3 +14,5 @@ export const accountPasswordPath = () => "/account/password";
 
 export const commentEditPath = (ticketId: string, commentId: string) =>
   `/tickets/${ticketId}/${commentId}/edit`;
+
+export const emailVerificationPath = () => "/email-verification";

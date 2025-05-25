@@ -14,6 +14,7 @@ import { prisma } from "@/lib/prisma";
 import { createSessionToken } from "@/lib/session";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
+import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
 import { setSessionCookie } from "../utils/session-cookie";
 
 const signUpSchema = z
@@ -55,6 +56,12 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         passwordHash,
       },
     });
+
+    const verificationCode = await generateEmailVerificationCode(
+      user.id,
+      user.email,
+    );
+    console.log(verificationCode); // TODO: send email with verification code
 
     const sessionToken = generateRandomToken();
     const session = await createSessionToken(sessionToken, user.id);
