@@ -12,6 +12,7 @@ import { prisma } from "@/lib/prisma";
 import { createSessionToken } from "@/lib/session";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
+import { sendEmailVerification } from "../emails/send-email-verification";
 import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
 import { setSessionCookie } from "../utils/session-cookie";
 
@@ -40,13 +41,14 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
       return toActionState("ERROR", "Invalid email or password.", formData);
     }
 
-    const verificationCode = await generateEmailVerificationCode(
-      user.id,
-      user.email,
-    );
-
+    // If the user's email is not verified, they are redirected to the email verification page.
     if (!user.emailVerified) {
-      console.log(verificationCode); // TODO: send email with verification code
+      const verificationCode = await generateEmailVerificationCode(
+        user.id,
+        user.email,
+      );
+
+      await sendEmailVerification(user.username, user.email, verificationCode);
     }
 
     const sessionToken = generateRandomToken();
