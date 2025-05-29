@@ -6,9 +6,10 @@ const EmailVerificationPage = async () => {
     <div className="flex flex-1 flex-col items-center justify-center">
       <CardCompact
         title="Verify Email"
-        description="Please check your email for a verification link."
+        description="Please check your email for a verification code."
         className="animate-fade-from-top w-full max-w-[420px]"
         content={<EmailVerificationForm />}
+        centerContent
       />
     </div>
   );
