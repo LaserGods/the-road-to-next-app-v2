@@ -56,17 +56,17 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       },
     });
 
-    const sessionToken = generateRandomToken();
-    const session = await createSessionToken(sessionToken, user.id);
-
-    await setSessionCookie(sessionToken, session.expiresAt);
-
     await inngest.send({
-      name: "app/signup.complete",
+      name: "app/auth.sign-up",
       data: {
         userId: user.id,
       },
     });
+
+    const sessionToken = generateRandomToken();
+    const session = await createSessionToken(sessionToken, user.id);
+
+    await setSessionCookie(sessionToken, session.expiresAt);
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

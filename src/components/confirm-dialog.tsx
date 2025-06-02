@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useActionFeedback } from "./form/hooks/use-action-feedback";
 import { ActionState, EMPTY_ACTION_STATE } from "./form/utils/to-action-state";
-import { Button } from "./ui/button";
 
 type UseConfirmDialogArgs = {
   title?: string;
@@ -96,7 +95,7 @@ const useConfirmDialog = ({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction asChild>
             <form action={formAction}>
-              <Button type="submit">Confirm</Button>
+              <button type="submit">Confirm</button>
             </form>
           </AlertDialogAction>
         </AlertDialogFooter>

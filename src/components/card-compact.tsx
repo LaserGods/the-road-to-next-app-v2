@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -13,6 +14,7 @@ type CardCompactProps = {
   className?: string;
   content: React.ReactNode;
   footer?: React.ReactNode;
+  centerContent?: boolean;
 };
 
 const CardCompact = ({
@@ -21,9 +23,10 @@ const CardCompact = ({
   className,
   content,
   footer,
+  centerContent,
 }: CardCompactProps) => {
   return (
-    <Card className={className}>
+    <Card className={cn(centerContent && "text-center", className)}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
