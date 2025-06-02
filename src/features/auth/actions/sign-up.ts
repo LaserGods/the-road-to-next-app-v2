@@ -14,8 +14,6 @@ import { prisma } from "@/lib/prisma";
 import { createSessionToken } from "@/lib/session";
 import { ticketsPath } from "@/paths";
 import { generateRandomToken } from "@/utils/crypto";
-import { sendEmailVerification } from "../emails/send-email-verification";
-import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
 import { setSessionCookie } from "../utils/session-cookie";
 
 const signUpSchema = z
@@ -58,24 +56,17 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       },
     });
 
-    const verificationCode = await generateEmailVerificationCode(
-      user.id,
-      user.email,
-    );
-
-    await sendEmailVerification(username, email, verificationCode);
+    await inngest.send({
+      name: "app/auth.sign-up",
+      data: {
+        userId: user.id,
+      },
+    });
 
     const sessionToken = generateRandomToken();
     const session = await createSessionToken(sessionToken, user.id);
 
     await setSessionCookie(sessionToken, session.expiresAt);
-
-    await inngest.send({
-      name: "app/signup.complete",
-      data: {
-        userId: user.id,
-      },
-    });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

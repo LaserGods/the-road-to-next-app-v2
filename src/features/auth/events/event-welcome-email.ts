@@ -4,15 +4,12 @@ import { signInPath } from "@/paths";
 import { getBaseUrl } from "@/utils/url";
 import { sendEmailWelcome } from "../emails/send-email-welcome";
 
-export type SignupEventArgs = {
-  data: {
-    userId: string;
-  };
-};
+// Welcome email and email verification functions are triggered by the same event
+// They share the same AuthSignUpEventArgs type defined in the inngest client
 
-export const signupEvent = inngest.createFunction(
+export const welcomeEmailEvent = inngest.createFunction(
   { id: "signup-emails" },
-  { event: "app/signup.complete" },
+  { event: "app/auth.sign-up" },
   async ({ event, step }) => {
     const { userId } = event.data;
 
