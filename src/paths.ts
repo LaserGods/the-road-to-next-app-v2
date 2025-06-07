@@ -12,6 +12,8 @@ export const passwordResetPath = () => "/password-reset";
 export const accountProfilePath = () => "/account/profile";
 export const accountPasswordPath = () => "/account/password";
 
+export const organizationsPath = () => "/organization";
+
 export const commentEditPath = (ticketId: string, commentId: string) =>
   `/tickets/${ticketId}/${commentId}/edit`;
 
