@@ -6,12 +6,9 @@ const OrganizationList = async () => {
   return (
     <div>
       {organizations.length > 0 ? (
-        <ul className="list-disc pl-5">
+        <ul className="list-disc pl-10 font-mono">
           {organizations.map((org) => (
-            <li
-              key={org.id}
-              className="mb-2 font-semibold font-stretch-semi-expanded"
-            >
+            <li key={org.id} className="mb-2">
               {org.name} - Members: {org.memberships.length}
             </li>
           ))}
