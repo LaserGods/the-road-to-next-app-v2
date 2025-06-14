@@ -62,7 +62,7 @@ const seed = async () => {
     },
   });
 
-  const passwordHash = await hashPassword("geheimnis");
+  const passwordHash = await hashPassword("gusty-chewy");
 
   const dbUsers = await prisma.user.createManyAndReturn({
     data: users.map((user) => ({
@@ -76,6 +76,7 @@ const seed = async () => {
       // for debugging purposes we are only adding one user to the org
       userId: dbUsers[0].id,
       organizationId: dbOrganization.id,
+      isActive: true,
     },
   });
 

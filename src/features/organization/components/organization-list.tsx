@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import {
-  LucideArrowLeft,
+  LucideArrowLeftRight,
   LucideArrowUpRightFromSquare,
   LucidePen,
   LucideTrash,
@@ -28,7 +28,7 @@ const OrganizationList = async () => {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button variant={"outline"} size={"icon"}>
-          <LucideArrowLeft className="size-4" />
+          <LucideArrowLeftRight className="size-4" />
         </Button>
       </TooltipTrigger>
       <TooltipContent
