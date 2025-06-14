@@ -23,6 +23,9 @@ export const getOrganizationsByUser = async () => {
         select: { memberships: true },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return organizations.map(({ memberships, ...organization }) => ({

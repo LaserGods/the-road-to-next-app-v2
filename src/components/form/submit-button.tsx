@@ -31,7 +31,7 @@ const SubmitButton = ({
     <Button disabled={pending} type="submit" variant={variant} size={size}>
       {pending && (
         <LucideLoaderCircle
-          className={clsx("h-4 w-4 animate-spin", {
+          className={clsx("size-4 animate-spin", {
             "mr-2": !!label,
           })}
         />
@@ -44,7 +44,7 @@ const SubmitButton = ({
           })}
         >
           {cloneElement(icon, {
-            className: "h-4 w-4",
+            className: "size-4",
           })}
         </span>
       ) : null}
