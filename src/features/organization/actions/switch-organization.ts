@@ -40,7 +40,7 @@ export const switchOrganization = async (organizationId: string) => {
     // Set the new organization as active
     await prisma.membership.update({
       where: {
-        organizationId_userId: {
+        membershipId: {
           organizationId,
           userId: user.id,
         },
