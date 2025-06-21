@@ -26,7 +26,7 @@ import { OrganizationSwitchButton } from "./organization-switch-button";
 const OrganizationList = async () => {
   const organizations = await getOrganizationsByUser();
 
-  const hasActive = organizations.some((org) => org.membershipsByUser.isActive);
+  const hasActive = organizations.some((org) => org.membershipByUser.isActive);
 
   return (
     <Table>
@@ -41,7 +41,7 @@ const OrganizationList = async () => {
       </TableHeader>
       <TableBody>
         {organizations.map((org) => {
-          const isActive = org.membershipsByUser.isActive;
+          const isActive = org.membershipByUser.isActive;
 
           const switchButton = (
             <OrganizationSwitchButton
@@ -126,7 +126,7 @@ const OrganizationList = async () => {
                 {org.name}
               </TableCell>
               <TableCell className="text-center font-mono">
-                {format(org.membershipsByUser.joinedAt, "yyyy-MM-dd, HH:mm")}
+                {format(org.membershipByUser.joinedAt, "yyyy-MM-dd, HH:mm")}
               </TableCell>
               <TableCell className="text-center font-mono">
                 {org._count.memberships}

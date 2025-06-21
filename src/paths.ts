@@ -21,3 +21,5 @@ export const commentEditPath = (ticketId: string, commentId: string) =>
 export const emailVerificationPath = () => "/email-verification";
 
 export const onboardingPath = () => "/onboarding";
+export const selectActiveOrganizationPath = () =>
+  "/onboarding/select-active-organization";

@@ -20,16 +20,15 @@ export const getOrganizationsByUser = async () => {
         },
       },
       _count: {
-        select: { memberships: true },
+        select: {
+          memberships: true,
+        },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
     },
   });
 
   return organizations.map(({ memberships, ...organization }) => ({
     ...organization,
-    membershipsByUser: memberships[0],
+    membershipByUser: memberships[0],
   }));
 };

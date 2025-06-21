@@ -11,7 +11,9 @@ import { organizationsPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 
 export const switchOrganization = async (organizationId: string) => {
-  const { user } = await getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect({
+    checkActiveOrganization: false,
+  });
 
   try {
     const organizations = await getOrganizationsByUser();
@@ -31,7 +33,9 @@ export const switchOrganization = async (organizationId: string) => {
     await prisma.membership.updateMany({
       where: {
         userId: user.id,
-        organizationId: { not: organizationId },
+        organizationId: {
+          not: organizationId,
+        },
       },
       data: {
         isActive: false,
@@ -41,8 +45,8 @@ export const switchOrganization = async (organizationId: string) => {
     await prisma.membership.update({
       where: {
         membershipId: {
-          organizationId,
           userId: user.id,
+          organizationId,
         },
       },
       data: {
@@ -52,6 +56,8 @@ export const switchOrganization = async (organizationId: string) => {
   } catch (error) {
     return fromErrorToActionState(error);
   }
+
   revalidatePath(organizationsPath());
+
   return toActionState("SUCCESS", "Active organization switched successfully.");
 };
