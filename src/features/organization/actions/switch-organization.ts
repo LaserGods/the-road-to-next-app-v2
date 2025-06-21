@@ -29,30 +29,32 @@ export const switchOrganization = async (organizationId: string) => {
       );
     }
 
-    // Deactivate all other memberships for the user
-    await prisma.membership.updateMany({
-      where: {
-        userId: user.id,
-        organizationId: {
-          not: organizationId,
-        },
-      },
-      data: {
-        isActive: false,
-      },
-    });
-    // Set the new organization as active
-    await prisma.membership.update({
-      where: {
-        membershipId: {
+    await prisma.$transaction([
+      // Deactivate all other memberships for the user
+      prisma.membership.updateMany({
+        where: {
           userId: user.id,
-          organizationId,
+          organizationId: {
+            not: organizationId,
+          },
         },
-      },
-      data: {
-        isActive: true,
-      },
-    });
+        data: {
+          isActive: false,
+        },
+      }),
+      // Set the new organization as active
+      prisma.membership.update({
+        where: {
+          membershipId: {
+            userId: user.id,
+            organizationId,
+          },
+        },
+        data: {
+          isActive: true,
+        },
+      }),
+    ]);
   } catch (error) {
     return fromErrorToActionState(error);
   }
