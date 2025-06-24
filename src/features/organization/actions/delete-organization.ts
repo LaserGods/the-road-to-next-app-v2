@@ -1,13 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import {
   fromErrorToActionState,
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { prisma } from "@/lib/prisma";
-import { organizationsPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 
 export const deleteOrganization = async (organizationId: string) => {
@@ -36,7 +34,9 @@ export const deleteOrganization = async (organizationId: string) => {
     return fromErrorToActionState(error);
   }
 
-  revalidatePath(organizationsPath());
+  // The path ravalidation prevents the toast message from being displayed
+  // The refresh needs to be handled in the client side
+  // revalidatePath(organizationsPath());
 
   return toActionState("SUCCESS", "Organization deleted");
 };
