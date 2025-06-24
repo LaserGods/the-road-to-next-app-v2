@@ -7,7 +7,7 @@ import { switchOrganization } from "../actions/switch-organization";
 
 type OrganizationSwitchButtonProps = {
   organizationId: string;
-  trigger: React.ReactNode;
+  trigger: React.ReactElement;
 };
 
 const OrganizationSwitchButton = ({

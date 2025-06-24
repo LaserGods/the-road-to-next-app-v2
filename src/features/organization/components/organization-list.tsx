@@ -3,7 +3,6 @@ import {
   LucideArrowLeftRight,
   LucideArrowUpRightFromSquare,
   LucidePen,
-  LucideTrash,
 } from "lucide-react";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Button } from "@/components/ui/button";
@@ -21,6 +20,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
+import { OrganizationDeleteButton } from "./organization-delete-button";
 import { OrganizationSwitchButton } from "./organization-switch-button";
 
 const OrganizationList = async () => {
@@ -95,20 +95,7 @@ const OrganizationList = async () => {
           );
 
           const deleteButton = (
-            <Tooltip delayDuration={500}>
-              <TooltipTrigger asChild>
-                <Button variant={"destructive"} size={"icon"}>
-                  <LucideTrash className="size-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                variant={"destructive"}
-                typography={"mono"}
-                intent={"destructiveArrow"}
-              >
-                <p>Delete organization</p>
-              </TooltipContent>
-            </Tooltip>
+            <OrganizationDeleteButton organizationId={org.id} />
           );
 
           const actionButtons = (
