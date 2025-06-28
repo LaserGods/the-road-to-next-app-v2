@@ -17,10 +17,19 @@ const PasswordChangeForm = () => {
   return (
     <Form action={action} actionState={actionState}>
       <Input
+        type="email"
+        autoComplete="email"
+        name="email"
+        className="hidden"
+      />
+      <Input
         type="password"
+        autoComplete="current-password"
+        aria-label="Current Password"
         name="password"
         placeholder="Password"
         defaultValue={actionState.payload?.get("password") as string}
+        required
       />
       <FieldError actionState={actionState} name="password" />
 

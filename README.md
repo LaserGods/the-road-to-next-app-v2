@@ -19,7 +19,7 @@ After learning the basics using Lucia, we migrate to [Oslo](https://oslojs.dev/)
 
 **Basic API - _Sessions with Prisma_**
 
-[Link to documentation]<https://lucia-auth.com/sessions/basic-api/prisma>
+[Link to documentation](https://lucia-auth.com/sessions/basic-api/prisma)
 
 ---
 
@@ -31,8 +31,6 @@ Two primary use cases:
 
 1. Forgot password
 2. Change password
-
-TODO:
 
 Basic Checks:
 

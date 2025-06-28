@@ -22,16 +22,22 @@ const PasswordResetForm = ({ tokenId }: PasswordResetFormProps) => {
     <Form action={action} actionState={actionState}>
       <Input
         type="password"
+        autoComplete="new-password"
+        aria-label="New Password"
         name="password"
         placeholder="Password"
         defaultValue={actionState.payload?.get("password") as string}
+        required
       />
       <FieldError actionState={actionState} name="password" />
       <Input
         type="password"
+        autoComplete="new-password"
+        aria-label="Confirm Password"
         name="confirmPassword"
         placeholder="Confirm Password"
         defaultValue={actionState.payload?.get("confirmPassword") as string}
+        required
       />
       <FieldError actionState={actionState} name="confirmPassword" />
 

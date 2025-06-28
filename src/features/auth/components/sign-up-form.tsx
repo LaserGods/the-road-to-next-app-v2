@@ -15,33 +15,44 @@ const SignUpForm = () => {
     <Form action={action} actionState={actionState}>
       <Input
         type="text"
+        aria-label="Username"
         name="username"
         placeholder="Username"
         defaultValue={actionState.payload?.get("username") as string}
+        required
       />
       <FieldError actionState={actionState} name="username" />
 
       <Input
         type="email"
+        autoComplete="email"
+        aria-label="Email"
         name="email"
         placeholder="Email"
         defaultValue={actionState.payload?.get("email") as string}
+        required
       />
       <FieldError actionState={actionState} name="email" />
 
       <Input
         type="password"
+        autoComplete="new-password"
+        aria-label="Password"
         name="password"
         placeholder="Password"
         defaultValue={actionState.payload?.get("password") as string}
+        required
       />
       <FieldError actionState={actionState} name="password" />
 
       <Input
         type="password"
+        autoComplete="new-password"
+        aria-label="Confirm Password"
         name="confirmPassword"
         placeholder="Confirm Password"
         defaultValue={actionState.payload?.get("confirmPassword") as string}
+        required
       />
       <FieldError actionState={actionState} name="confirmPassword" />
 
