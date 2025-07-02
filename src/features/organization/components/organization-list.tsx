@@ -4,6 +4,7 @@ import {
   LucideArrowUpRightFromSquare,
   LucidePen,
 } from "lucide-react";
+import Link from "next/link";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +20,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { membershipsPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 import { OrganizationDeleteButton } from "./organization-delete-button";
 import { OrganizationSwitchButton } from "./organization-switch-button";
@@ -67,8 +69,10 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           const detailButton = (
             <Tooltip delayDuration={500}>
               <TooltipTrigger asChild>
-                <Button variant={"outline"} size={"icon"}>
-                  <LucideArrowUpRightFromSquare className="size-4" />
+                <Button variant={"outline"} size={"icon"} asChild>
+                  <Link href={membershipsPath(org.id)}>
+                    <LucideArrowUpRightFromSquare className="size-4" />
+                  </Link>
                 </Button>
               </TooltipTrigger>
               <TooltipContent
