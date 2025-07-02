@@ -8,7 +8,7 @@ import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { homePath, signInPath, singUpPath } from "@/paths";
+import { homePath, signInPath, signUpPath } from "@/paths";
 import { AccountDropdown } from "./account-dropdown";
 
 let currentToastId: string | number | undefined;
@@ -59,7 +59,7 @@ const Header = () => {
   ) : (
     <>
       <Link
-        href={singUpPath()}
+        href={signUpPath()}
         className={buttonVariants({ variant: "outline" })}
         onNavigate={() => {
           customWarningToast({

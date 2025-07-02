@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { signInPath, singUpPath } from "@/paths";
+import { signInPath, signUpPath } from "@/paths";
 import { getActivePath } from "@/utils/get-active-path";
 import { navItems } from "../constants";
 import { SidebarItem } from "./sidebar-item";
@@ -15,7 +15,7 @@ const Sidebar = () => {
   const { activeIndex } = getActivePath(
     pathName,
     navItems.map((item) => item.href),
-    [singUpPath(), signInPath()],
+    [signUpPath(), signInPath()],
   );
 
   const [isTransition, setTransition] = useState(false);
@@ -27,7 +27,7 @@ const Sidebar = () => {
     setTimeout(() => setTransition(false), 200);
   };
   if (!user || !isFetched) {
-    return <div className="w-[78px] bg-secondary/20" />;
+    return <div className="bg-secondary/20 w-[78px]" />;
   }
   return (
     <nav

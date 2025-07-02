@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { CardCompact } from "@/components/card-compact";
 import { SignInForm } from "@/features/auth/components/sign-in-form";
 import { getAuth } from "@/features/auth/queries/get-auth";
-import { passwordForgotPath, singUpPath, ticketsPath } from "@/paths";
+import { passwordForgotPath, signUpPath, ticketsPath } from "@/paths";
 
 const SignInPage = async () => {
   const authState = await getAuth();
@@ -18,7 +18,7 @@ const SignInPage = async () => {
           footer={
             <>
               <Link
-                href={singUpPath()}
+                href={signUpPath()}
                 className="text-muted-foreground text-sm"
               >
                 No account yet?
