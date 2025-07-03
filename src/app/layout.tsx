@@ -4,8 +4,10 @@ import localFont from "next/font/local";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Header } from "@/app/_navigation/header";
 import { Sidebar } from "@/app/_navigation/sidebar/components/sidebar";
+import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ActiveOrganizationBadge } from "@/features/organization/components/active-organization-badge";
 import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
 
 const geistSans = localFont({
@@ -43,8 +45,11 @@ export default function RootLayout({
                 <main className="bg-secondary/20 flex min-h-screen flex-1 flex-col overflow-x-hidden overflow-y-auto px-8 py-24">
                   {children}
                 </main>
+                <Footer>
+                  <ActiveOrganizationBadge />
+                </Footer>
               </div>
-              <Toaster expand />
+              <Toaster offset={{ bottom: "4rem" }} expand />
             </ReactQueryProvider>
           </ThemeProvider>
         </NuqsAdapter>
