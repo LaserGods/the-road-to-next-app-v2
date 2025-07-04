@@ -2,9 +2,9 @@ import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect"
 import { prisma } from "@/lib/prisma";
 
 export const getMemberships = async (organizationId: string) => {
-  await getAuthOrRedirect();
+  const currentUser = await getAuthOrRedirect();
 
-  return await prisma.membership.findMany({
+  const organizationMemberships = await prisma.membership.findMany({
     where: {
       organizationId,
     },
@@ -23,4 +23,6 @@ export const getMemberships = async (organizationId: string) => {
       },
     },
   });
+
+  return { organizationMemberships, currentUser };
 };

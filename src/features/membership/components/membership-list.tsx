@@ -1,7 +1,5 @@
 import { format } from "date-fns";
 import { LucideBan, LucideCheck } from "lucide-react";
-// import { Breadcrumbs } from "@/components/breadcrumbs";
-// import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
@@ -10,7 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import { organizationsPath } from "@/paths";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { getMemberships } from "../queries/get-memberships";
 
 type MembershipListProps = {
@@ -20,23 +22,11 @@ type MembershipListProps = {
 const MembershipList = async ({ organizationId }: MembershipListProps) => {
   const memberships = await getMemberships(organizationId);
 
+  if (!memberships.currentUser) {
+    return null;
+  }
+
   return (
-    // <div className="flex flex-1 flex-col gap-y-8">
-    //   <Breadcrumbs
-    //     breadcrumbs={[
-    //       {
-    //         title: "Organizations",
-    //         href: organizationsPath(),
-    //       },
-    //       {
-    //         title: `${memberships[0]?.organization.name} Members`,
-    //         href: `/organization/${organizationId}/memberships`,
-    //       },
-    //     ]}
-    //   />
-
-    //   <Separator />
-
     <Table>
       <TableHeader>
         <TableRow>
@@ -48,13 +38,32 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {memberships.map((membership) => {
+        {memberships.organizationMemberships.map((membership) => {
           const buttons = <></>; // TODO
 
           return (
             <TableRow key={membership.userId}>
               <TableCell className="text-left">
-                {membership.user.username}
+                {memberships.currentUser.user.id === membership.userId ? (
+                  <>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        {membership.user.username}{" "}
+                      </TooltipTrigger>
+                      <TooltipContent
+                        variant={"outline"}
+                        intent={"outlineArrow"}
+                      >
+                        <span className="font-medium">That&apos;s you!</span>
+                      </TooltipContent>
+                    </Tooltip>
+                    <span className="text-muted-foreground pl-1.5 font-light italic">
+                      (you)
+                    </span>
+                  </>
+                ) : (
+                  membership.user.username
+                )}
               </TableCell>
               <TableCell className="text-center">
                 {membership.user.email}
@@ -75,7 +84,6 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
         })}
       </TableBody>
     </Table>
-    // </div>
   );
 };
 
