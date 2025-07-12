@@ -14,6 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getMemberships } from "../queries/get-memberships";
+import { MembershipDeleteButton } from "./membership-delete-button";
 
 type MembershipListProps = {
   organizationId: string;
@@ -39,7 +40,13 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
       </TableHeader>
       <TableBody>
         {memberships.organizationMemberships.map((membership) => {
-          const buttons = <></>; // TODO
+          const deleteButton = (
+            <MembershipDeleteButton
+              organizationId={organizationId}
+              userId={membership.userId}
+            />
+          );
+          const buttons = <>{deleteButton}</>;
 
           return (
             <TableRow key={membership.userId}>
