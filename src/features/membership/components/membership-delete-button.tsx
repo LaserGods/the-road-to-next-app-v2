@@ -47,9 +47,9 @@ const MembershipDeleteButton = ({
         <TooltipTrigger asChild>{deleteButton}</TooltipTrigger>
         <TooltipContent variant={"destructive"} intent={"destructiveArrow"}>
           {isOrganizationPath ? (
-            <span className="font-medium">Leave Organization</span>
+            <span className="font-medium">Leave organization</span>
           ) : (
-            <span className="font-medium">Delete Member</span>
+            <span className="font-medium">Delete member</span>
           )}
         </TooltipContent>
       </Tooltip>

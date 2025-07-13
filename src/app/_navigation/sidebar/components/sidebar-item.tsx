@@ -21,11 +21,11 @@ const SidebarItem = ({ isOpen, isActive, navItem }: SidebarItemProps) => {
         className={cn(
           buttonVariants({ variant: "ghost" }),
           "group relative flex h-12 justify-start",
-          isActive && "bg-muted font-bold hover:bg-muted",
+          isActive && "bg-muted hover:bg-muted font-bold",
         )}
       >
         {cloneElement(navItem.icon, {
-          className: "h-5 w-5",
+          className: "size-5",
         })}
         <span
           className={cn(

@@ -35,7 +35,7 @@ const tooltipArrowVariants = cva(
         defaultArrow: "fill-primary",
         destructiveArrow: "fill-destructive",
         outlineArrow: "fill-background stroke-input",
-        secondaryArrow: "bg-secondary text-secondary-foreground",
+        secondaryArrow: "fill-secondary",
       },
     },
     defaultVariants: {

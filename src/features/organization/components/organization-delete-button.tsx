@@ -4,6 +4,11 @@ import { LucideLoaderCircle, LucideTrash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { deleteOrganization } from "../actions/delete-organization";
 
 type OrganizationDeleteButtonProps = {
@@ -32,7 +37,12 @@ const OrganizationDeleteButton = ({
 
   return (
     <>
-      {deleteButton}
+      <Tooltip>
+        <TooltipTrigger asChild>{deleteButton}</TooltipTrigger>
+        <TooltipContent variant={"destructive"} intent={"destructiveArrow"}>
+          <span className="font-medium">Delete organization</span>
+        </TooltipContent>
+      </Tooltip>
       {deleteDialog}
     </>
   );
