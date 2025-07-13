@@ -20,10 +20,19 @@ const ActiveOrganizationBadge = async () => {
 
   if (!activeOrganization) {
     return (
-      <Badge variant={"destructive"} className="animate-ping">
-        <LucideAlertTriangle className="size-4" />
-        No active organization
-      </Badge>
+      <div className="relative flex items-center justify-center">
+        <Badge
+          variant={"destructive"}
+          className="animate-ping-quarter absolute -z-10 text-transparent"
+        >
+          <LucideAlertTriangle className="size-3" />
+          No active organization
+        </Badge>
+        <Badge variant={"destructive"} className="relative z-10">
+          <LucideAlertTriangle />
+          No active organization
+        </Badge>
+      </div>
     );
   }
 

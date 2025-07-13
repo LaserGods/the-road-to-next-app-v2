@@ -114,6 +114,7 @@
   --animate-header-from-top: header-from-top 0.5s ease-out;
   --animate-sidebar-from-left: sidebar-from-left 0.1s ease-out;
   --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+  --animate-ping-quarter: ping-quarter 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -153,6 +154,13 @@
     }
     20%,
     50% {
+      opacity: 0;
+    }
+  }
+  @keyframes ping-quarter {
+    75%,
+    100% {
+      transform: scale(1.25, 2.5);
       opacity: 0;
     }
   }

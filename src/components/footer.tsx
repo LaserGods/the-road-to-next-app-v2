@@ -18,7 +18,7 @@ const Footer = ({ children }: FooterProps) => {
 
   const conditionalFooter = user ? (
     <>
-      <footer className="fixed inset-x-0 bottom-1 flex h-12 w-full max-w-[100vw] items-center justify-end bg-transparent px-8 text-sm">
+      <footer className="fixed right-3 bottom-1 flex h-14 w-full max-w-[20dvw] items-center justify-end bg-transparent px-8 text-sm">
         {children}
       </footer>
     </>
