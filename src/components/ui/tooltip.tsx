@@ -28,13 +28,13 @@ const tooltipVariants = cva(
 );
 
 const tooltipArrowVariants = cva(
-  "z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]",
+  "z-50 size-2.5 translate-y-[calc(-50%_+_3px)] rounded-[2px]",
   {
     variants: {
       intent: {
-        defaultArrow: "bg-primary fill-primary",
-        destructiveArrow: "bg-destructive fill-destructive",
-        outlineArrow: "bg-background fill-background",
+        defaultArrow: "fill-primary",
+        destructiveArrow: "fill-destructive",
+        outlineArrow: "fill-background stroke-input",
         secondaryArrow: "bg-secondary text-secondary-foreground",
       },
     },

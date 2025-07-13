@@ -20,6 +20,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { MembershipDeleteButton } from "@/features/membership/components/membership-delete-button";
 import { membershipsPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 import { OrganizationDeleteButton } from "./organization-delete-button";
@@ -67,7 +68,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           );
 
           const detailButton = (
-            <Tooltip delayDuration={500}>
+            <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
                 <Button variant={"outline"} size={"icon"} asChild>
                   <Link href={membershipsPath(org.id)}>
@@ -86,7 +87,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           );
 
           const editButton = (
-            <Tooltip delayDuration={500}>
+            <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
                 <Button variant={"outline"} size={"icon"}>
                   <LucidePen className="size-4" />
@@ -102,6 +103,13 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
             </Tooltip>
           );
 
+          const leaveButton = (
+            <MembershipDeleteButton
+              organizationId={org.id}
+              userId={org.membershipByUser.userId}
+            />
+          );
+
           const deleteButton = (
             <OrganizationDeleteButton organizationId={org.id} />
           );
@@ -111,6 +119,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
               {switchButton}
               {limitedAccess ? null : detailButton}
               {limitedAccess ? null : editButton}
+              {limitedAccess ? null : leaveButton}
               {limitedAccess ? null : deleteButton}
             </>
           );

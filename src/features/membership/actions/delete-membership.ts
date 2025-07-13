@@ -12,12 +12,15 @@ export const deleteMembership = async ({
   organizationId: string;
   userId: string;
 }) => {
-  await getAuthOrRedirect();
+  const auth = await getAuthOrRedirect();
 
   const membershipsResult = await getMemberships(organizationId);
   const memberships = membershipsResult.organizationMemberships;
 
   const isLastMembership = (memberships ?? []).length <= 1;
+
+  const contextAwareToast =
+    userId === auth.user.id ? "Leaving Organization..." : "Deleting member...";
 
   if (isLastMembership) {
     return toActionState(
@@ -35,5 +38,5 @@ export const deleteMembership = async ({
     },
   });
 
-  return toActionState("SUCCESS", "Membership deleted successfully");
+  return toActionState("SUCCESS", `${contextAwareToast}`);
 };
