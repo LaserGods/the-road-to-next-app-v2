@@ -43,6 +43,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           <TableHead className="text-center">Name</TableHead>
           <TableHead className="text-center">Joined At</TableHead>
           <TableHead className="text-center">Members</TableHead>
+          <TableHead className="text-center">My Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
@@ -134,6 +135,9 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
               </TableCell>
               <TableCell className="text-center font-mono">
                 {org._count.memberships}
+              </TableCell>
+              <TableCell className="text-center font-mono">
+                {org.membershipByUser.membershipRole}
               </TableCell>
               <TableCell className="flex items-center justify-end gap-x-2">
                 {actionButtons}

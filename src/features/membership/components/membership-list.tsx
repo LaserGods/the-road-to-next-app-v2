@@ -35,6 +35,7 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
           <TableHead className="text-center">Email</TableHead>
           <TableHead className="text-center">Joined At</TableHead>
           <TableHead className="text-center">Email Verified</TableHead>
+          <TableHead className="text-center">Role</TableHead>
           <TableHead className="text-right" />
         </TableRow>
       </TableHeader>
@@ -84,6 +85,9 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
                 ) : (
                   <LucideBan />
                 )}
+              </TableCell>
+              <TableCell className="text-center">
+                {membership.membershipRole}
               </TableCell>
               <TableCell className="text-right">{buttons}</TableCell>
             </TableRow>
