@@ -50,6 +50,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
       <TableBody>
         {organizations.map((org) => {
           const isActive = org.membershipByUser.isActive;
+          const isAdmin = org.membershipByUser.membershipRole === "ADMIN";
 
           const switchButton = (
             <OrganizationSwitchButton
@@ -115,13 +116,17 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
             <OrganizationDeleteButton organizationId={org.id} />
           );
 
+          const placeholder = (
+            <Button size={"icon"} disabled className="disabled:opacity-0" />
+          );
+
           const actionButtons = (
             <>
               {switchButton}
-              {limitedAccess ? null : detailButton}
-              {limitedAccess ? null : editButton}
+              {limitedAccess ? null : isAdmin ? detailButton : placeholder}
+              {limitedAccess ? null : isAdmin ? editButton : placeholder}
               {limitedAccess ? null : leaveButton}
-              {limitedAccess ? null : deleteButton}
+              {limitedAccess ? null : isAdmin ? deleteButton : placeholder}
             </>
           );
           return (
