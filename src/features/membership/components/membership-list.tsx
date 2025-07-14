@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { getMemberships } from "../queries/get-memberships";
 import { MembershipDeleteButton } from "./membership-delete-button";
+import { MembershipMoreMenu } from "./membership-more-menu";
 
 type MembershipListProps = {
   organizationId: string;
@@ -41,13 +42,26 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
       </TableHeader>
       <TableBody>
         {memberships.organizationMemberships.map((membership) => {
+          const membershipMoreMenu = (
+            <MembershipMoreMenu
+              userId={membership.userId}
+              organizationId={organizationId}
+              membershipRole={membership.membershipRole}
+            />
+          );
+
           const deleteButton = (
             <MembershipDeleteButton
               organizationId={organizationId}
               userId={membership.userId}
             />
           );
-          const buttons = <>{deleteButton}</>;
+          const buttons = (
+            <>
+              {membershipMoreMenu}
+              {deleteButton}
+            </>
+          );
 
           return (
             <TableRow key={membership.userId} className="font-mono">
@@ -86,10 +100,12 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
                   <LucideBan />
                 )}
               </TableCell>
-              <TableCell className="text-center">
+              <TableCell className="w-28 text-center">
                 {membership.membershipRole}
               </TableCell>
-              <TableCell className="text-right">{buttons}</TableCell>
+              <TableCell className="flex items-center justify-end space-x-2">
+                {buttons}
+              </TableCell>
             </TableRow>
           );
         })}

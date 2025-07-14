@@ -1,13 +1,11 @@
 import { LucideAlertTriangle, LucideArrowLeftRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
 import { organizationsPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 
@@ -40,18 +38,17 @@ const ActiveOrganizationBadge = async () => {
     <div className="flex items-center gap-x-2">
       <Tooltip>
         <TooltipTrigger asChild>
-          <Link
-            href={organizationsPath()}
-            className={cn(buttonVariants({ variant: "ghost" }))}
-          >
-            <LucideArrowLeftRight className="size-3" />
-          </Link>
+          <Badge asChild>
+            <Link href={organizationsPath()}>
+              <LucideArrowLeftRight />
+              {activeOrganization.name}
+            </Link>
+          </Badge>
         </TooltipTrigger>
-        <TooltipContent variant={"outline"} intent={"outlineArrow"}>
+        <TooltipContent>
           <span className="font-medium">Switch organizations</span>
         </TooltipContent>
       </Tooltip>
-      <Badge>{activeOrganization.name}</Badge>
     </div>
   );
 };
