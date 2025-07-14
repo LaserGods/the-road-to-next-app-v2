@@ -1,7 +1,7 @@
-import { Separator } from "@radix-ui/react-separator";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { CardCompact } from "@/components/card-compact";
+import { Separator } from "@/components/ui/separator";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { homePath, ticketPath } from "@/paths";
@@ -37,7 +37,7 @@ const TicketEditPage = async ({ params }: TicketEditPageProps) => {
         <CardCompact
           title="Edit Ticket"
           description="Edit an existing ticket"
-          className="w-full max-w-[420px] animate-fade-from-top"
+          className="animate-fade-from-top w-full max-w-[420px]"
           content={<TicketUpsertForm ticket={ticket} />}
         />
       </div>
