@@ -50,7 +50,7 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
           const buttons = <>{deleteButton}</>;
 
           return (
-            <TableRow key={membership.userId}>
+            <TableRow key={membership.userId} className="font-mono">
               <TableCell className="text-left">
                 {memberships.currentUser.user.id === membership.userId ? (
                   <>

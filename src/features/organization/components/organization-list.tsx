@@ -130,18 +130,16 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
             </>
           );
           return (
-            <TableRow key={org.id}>
-              <TableCell className="font-mono">{org.id}</TableCell>
-              <TableCell className="text-center font-mono">
-                {org.name}
-              </TableCell>
-              <TableCell className="text-center font-mono">
+            <TableRow key={org.id} className="font-mono">
+              <TableCell>{org.id}</TableCell>
+              <TableCell className="text-center">{org.name}</TableCell>
+              <TableCell className="text-center">
                 {format(org.membershipByUser.joinedAt, "yyyy-MM-dd, HH:mm")}
               </TableCell>
-              <TableCell className="text-center font-mono">
+              <TableCell className="text-center">
                 {org._count.memberships}
               </TableCell>
-              <TableCell className="text-center font-mono">
+              <TableCell className="text-center">
                 {org.membershipByUser.membershipRole}
               </TableCell>
               <TableCell className="flex items-center justify-end gap-x-2">
