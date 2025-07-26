@@ -8,17 +8,23 @@ import { TicketSortSelect } from "./ticket-sort-select";
 
 type TicketListProps = {
   userId?: string;
+  byOrganization?: boolean;
   searchParams: ParsedSearchParams;
 };
 
-const TicketList = async ({ userId, searchParams }: TicketListProps) => {
+const TicketList = async ({
+  userId,
+  byOrganization = false,
+  searchParams,
+}: TicketListProps) => {
   const { list: tickets, metadata: ticketMetadata } = await getTickets(
     userId,
+    byOrganization,
     searchParams,
   );
 
   return (
-    <div className="flex flex-1 animate-fade-from-top flex-col items-center gap-y-4">
+    <div className="animate-fade-from-top flex flex-1 flex-col items-center gap-y-4">
       <div className="flex w-full max-w-[420px] gap-x-2">
         <TicketSearchInput placeholder="Search tickets" />
         <TicketSortSelect

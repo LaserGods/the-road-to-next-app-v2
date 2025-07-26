@@ -28,3 +28,4 @@ export const signUpPath = () => "/sign-up";
 export const ticketEditPath = (ticketId: string) => `/tickets/${ticketId}/edit`;
 export const ticketPath = (ticketId: string) => `/tickets/${ticketId}`;
 export const ticketsPath = () => "/tickets";
+export const ticketsByOrganizationPath = () => "/tickets/organization";
