@@ -62,3 +62,54 @@ Database Design:
 
 - [x] Password reset session table
 - [x] Email verification request table
+
+#### Email
+
+Our immediate use case is sending a unique password reset link/token to the user.
+
+Other authentication use cases include:
+
+1. Sending a unique email verification code to the user.
+2. Adding basic 2FA support.
+3. Allowing the user to change their email address.
+4. Allowing the user to have multiple email addresses.
+
+Prerequisites:
+
+- [x] Purchase a domain name for sending emails
+
+Implementation:
+
+- [x] Add [react email](https://react.email/) library for creating email templates using React and TypeScript
+- [x] Implement email sending service with [Resend](https://resend.com/)
+- [x] Connect your domain to Resend by adding the DNS records to your domain registrar
+
+#### Message Queue
+
+A message queue is a separate server that handles background tasks, such as sending emails, processing data, etc. It allows us to offload tasks from the main application server, improving performance and reliability.
+
+Implementation:
+
+- [x] Add [Inngest](https://www.inngest.com/), create an Inngest client, and set up a route handler
+- [x] Run the Inngest development server
+- [x] Create an Inngest function to send password reset emails
+- [x] Connect Inngest and Vercel - [Link to documentation](https://www.inngest.com/docs/deploy/vercel)
+
+#### Email Verification
+
+Email verification is a process that ensures the user owns the email address they provided during registration. It is part of the larger onboarding flow.
+
+Email verification flow:
+
+1. User registers with an email address.
+2. Generate a unique short-lived verification token, hash it, and store it in the database.
+3. Send an email to the user with the code and instructions to verify their email address.
+4. User enters the code on the verification page.
+5. Verify the code by comparing it with the hashed token in the database.
+6. Verify the code has not expired.
+7. If the code is valid, mark the email as verified in the database, and create a new session for the user.
+
+#### Organizations
+
+Organizations are a way to group users together. They can be used for teams, companies, or any other grouping of users and resources.
+Organizations can have multiple users, and users can belong to multiple organizations.

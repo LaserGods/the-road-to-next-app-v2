@@ -11,7 +11,7 @@ const users = [
   },
   {
     username: "user",
-    email: "jordan.littlerocklidar@gmail.com",
+    email: "myEmail@gmail.com", // use an email that you own
     emailVerified: true,
   },
 ];
@@ -56,7 +56,7 @@ const seed = async () => {
   await prisma.organization.deleteMany();
   await prisma.membership.deleteMany();
 
-  const passwordHash = await hashPassword("gusty-chewy");
+  const passwordHash = await hashPassword("gusty-chewy"); // don't forget to change this password if you use the same database for development and production!
 
   const dbUsers = await prisma.user.createManyAndReturn({
     data: users.map((user) => ({
