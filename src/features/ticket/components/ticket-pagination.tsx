@@ -1,10 +1,11 @@
 "use client";
 
-import { useQueryState, useQueryStates } from "nuqs";
+import { inferParserType, useQueryState, useQueryStates } from "nuqs";
 import { useEffect, useRef } from "react";
 import { Pagination } from "@/components/pagination";
 import { PaginatedData } from "@/types/pagination";
 import {
+  myTicketsFilterParser,
   paginationOptions,
   paginationParser,
   searchParser,
@@ -24,15 +25,27 @@ const TicketPagination = ({
   );
 
   const [search] = useQueryState("search", searchParser);
-  const prevSearch = useRef(search);
+  const [myTicketsFilter] = useQueryState(
+    "myTicketsFilter",
+    myTicketsFilterParser,
+  );
+
+  const prevSearch = useRef<{
+    search: inferParserType<typeof searchParser>;
+    myTicketsFilter: inferParserType<typeof myTicketsFilterParser>;
+  }>({ search, myTicketsFilter });
 
   useEffect(() => {
-    if (search === prevSearch.current) return;
+    if (
+      search === prevSearch.current.search &&
+      myTicketsFilter === prevSearch.current.myTicketsFilter
+    )
+      return;
 
-    prevSearch.current = search;
+    prevSearch.current = { search, myTicketsFilter };
 
     setPagination({ ...pagination, page: 0 });
-  }, [pagination, search, setPagination]);
+  }, [pagination, search, myTicketsFilter, setPagination]);
 
   return (
     <Pagination

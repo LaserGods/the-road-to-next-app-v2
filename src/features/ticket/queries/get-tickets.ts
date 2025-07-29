@@ -11,6 +11,7 @@ export const getTickets = async (
 ) => {
   const { user } = await getAuth();
   const activeOrganization = await getActiveOrganization();
+  const myTicketsFilter = searchParams.myTicketsFilter;
 
   const where = {
     userId,
@@ -23,12 +24,17 @@ export const getTickets = async (
           organizationId: activeOrganization.id,
         }
       : {}),
+    ...(myTicketsFilter && activeOrganization
+      ? {
+          organizationId: activeOrganization.id,
+        }
+      : {}),
   };
 
   const skip = searchParams.page * searchParams.size;
   const take = searchParams.size;
 
-  // we are using a transaction to ensure an error if on of the
+  // we are using a transaction to ensure an error if one of the
   // database queries fail
   const [tickets, count] = await prisma.$transaction([
     prisma.ticket.findMany({

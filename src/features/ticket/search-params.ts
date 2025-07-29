@@ -1,5 +1,6 @@
 import {
   createSearchParamsCache,
+  parseAsBoolean,
   parseAsInteger,
   parseAsString,
 } from "nuqs/server";
@@ -31,10 +32,18 @@ export const paginationOptions = {
   clearOnDefault: true,
 };
 
+export const myTicketsFilterParser = parseAsBoolean
+  .withOptions({
+    shallow: false,
+    clearOnDefault: true,
+  })
+  .withDefault(false);
+
 export const searchParamsCache = createSearchParamsCache({
   search: searchParser,
   ...sortParser,
   ...paginationParser,
+  myTicketsFilter: myTicketsFilterParser,
 });
 
 export type ParsedSearchParams = Awaited<
