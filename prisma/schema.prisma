@@ -18,14 +18,15 @@ model Organization {
 }
 
 model Membership {
-    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-    organizationId String
-    user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId         String
-
-    joinedAt       DateTime       @default(now())
-    isActive       Boolean
-    membershipRole MembershipRole @default(MEMBER)
+    organization    Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    organizationId  String
+    user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId          String
+    joinedAt        DateTime       @default(now())
+    isActive        Boolean
+    membershipRole  MembershipRole @default(MEMBER)
+    // permissions
+    canDeleteTicket Boolean        @default(true)
 
     @@id(name: "membershipId", [organizationId, userId])
     @@index([organizationId])
