@@ -117,7 +117,18 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           );
 
           const placeholder = (
-            <Button size={"icon"} disabled className="disabled:opacity-0" />
+            <Tooltip delayDuration={50}>
+              <TooltipTrigger asChild>
+                <div className="focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-9 rounded-md bg-linear-[135deg,hsla(210,40%,96.1%,0.45),hsla(210,40%,96.1%,0.15)] outline-none focus-visible:ring-[3px]" />
+              </TooltipTrigger>
+              <TooltipContent
+                variant={"outline"}
+                typography={"mono"}
+                intent={"outlineArrow"}
+              >
+                <span>Insufficient permissions</span>
+              </TooltipContent>
+            </Tooltip>
           );
 
           const actionButtons = (
