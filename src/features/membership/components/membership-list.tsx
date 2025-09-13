@@ -76,7 +76,7 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
                       </TooltipTrigger>
                       <TooltipContent
                         variant={"outline"}
-                        intent={"outlineArrow"}
+                        arrowVariant={"outlineArrow"}
                       >
                         <span className="font-medium">That&apos;s you!</span>
                       </TooltipContent>

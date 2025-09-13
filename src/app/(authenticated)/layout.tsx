@@ -1,6 +1,6 @@
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 
-// IMPOPRTANT: Authorization should NEVER be done in a layout in a production app.
+// IMPORTANT: A layout should never be the main layer of authentication.
 
 export default async function AuthenticatedLayout({
   children,

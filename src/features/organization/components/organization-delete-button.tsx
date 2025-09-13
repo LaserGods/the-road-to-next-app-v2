@@ -42,7 +42,7 @@ const OrganizationDeleteButton = ({
         <TooltipContent
           variant={"destructive"}
           typography={"mono"}
-          intent={"destructiveArrow"}
+          arrowVariant={"destructiveArrow"}
         >
           <span className="font-medium">Delete organization</span>
         </TooltipContent>

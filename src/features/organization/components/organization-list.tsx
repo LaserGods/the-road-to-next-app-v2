@@ -81,7 +81,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
               <TooltipContent
                 variant={"outline"}
                 typography={"mono"}
-                intent={"outlineArrow"}
+                arrowVariant={"outlineArrow"}
               >
                 <p>Organization details</p>
               </TooltipContent>
@@ -98,7 +98,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
               <TooltipContent
                 variant={"outline"}
                 typography={"mono"}
-                intent={"outlineArrow"}
+                arrowVariant={"outlineArrow"}
               >
                 <p>Edit organization</p>
               </TooltipContent>
@@ -124,7 +124,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
               <TooltipContent
                 variant={"outline"}
                 typography={"mono"}
-                intent={"outlineArrow"}
+                arrowVariant={"outlineArrow"}
               >
                 <span>Insufficient permissions</span>
               </TooltipContent>

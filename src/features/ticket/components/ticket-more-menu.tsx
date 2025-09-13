@@ -80,7 +80,7 @@ const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
       </TooltipTrigger>
       <TooltipContent
         variant={"secondary"}
-        intent={"secondaryArrow"}
+        arrowVariant={"secondaryArrow"}
         side={"bottom"}
       >
         <span>Insufficient permissions</span>

@@ -48,7 +48,7 @@ const MembershipDeleteButton = ({
         <TooltipContent
           variant={"destructive"}
           typography={"mono"}
-          intent={"destructiveArrow"}
+          arrowVariant={"destructiveArrow"}
         >
           {isOrganizationPath ? (
             <span className="font-medium">Leave organization</span>

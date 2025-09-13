@@ -31,7 +31,7 @@ const tooltipArrowVariants = cva(
   "z-50 size-2.5 translate-y-[calc(-50%_+_3px)] rounded-[2px]",
   {
     variants: {
-      intent: {
+      arrowVariant: {
         defaultArrow: "fill-primary",
         destructiveArrow: "fill-destructive",
         outlineArrow: "fill-background stroke-input",
@@ -39,7 +39,7 @@ const tooltipArrowVariants = cva(
       },
     },
     defaultVariants: {
-      intent: "defaultArrow",
+      arrowVariant: "defaultArrow",
     },
   },
 );
@@ -82,7 +82,7 @@ function TooltipContent({
   className,
   variant,
   typography,
-  intent,
+  arrowVariant,
   sideOffset = 0,
   children,
   ...props
@@ -97,7 +97,7 @@ function TooltipContent({
       >
         {children}
         <TooltipPrimitive.Arrow
-          className={cn(tooltipArrowVariants({ intent, className }))}
+          className={cn(tooltipArrowVariants({ arrowVariant, className }))}
           data-slot="tooltip-arrow"
         />
       </TooltipPrimitive.Content>
