@@ -1,6 +1,6 @@
-import { MembershipRole } from "@prisma/client";
 import { cache } from "react";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { MembershipRole } from "@/lib/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { ADMIN_ROLE_PERMISSIONS, MEMBER_ROLE_PERMISSIONS } from "../constants";
 import { getPermissions } from "../queries/get-permissions";

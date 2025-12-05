@@ -1,6 +1,5 @@
 "use server";
 
-import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import {
@@ -9,6 +8,7 @@ import {
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { hashPassword } from "@/features/password/utils/hash-and-verify";
+import { Prisma } from "@/lib/generated/prisma/client";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { createSessionToken } from "@/lib/session";
@@ -26,7 +26,7 @@ const signUpSchema = z
         (value) => !value.includes(" "),
         "Username cannot contain spaces.",
       ),
-    email: z.string().min(1, { message: "Is required." }).max(191).email(),
+    email: z.email({ error: "Please enter a valid email address." }),
     password: z.string().min(6).max(191),
     confirmPassword: z.string().min(6).max(191),
   })

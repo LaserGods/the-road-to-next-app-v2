@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { hashPassword } from "@/features/password/utils/hash-and-verify";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 const users = [
   {
@@ -77,13 +75,13 @@ const seed = async () => {
       {
         userId: dbUsers[0].id,
         organizationId: dbOrganization.id,
-        key: "canUpdateTicket",
+        key: "ticket:update",
         value: true,
       },
       {
         userId: dbUsers[1].id,
         organizationId: dbOrganization.id,
-        key: "canUpdateTicket",
+        key: "ticket:update",
         value: false,
       },
     ],

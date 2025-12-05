@@ -1,8 +1,8 @@
 "use server";
 
-import { MembershipRole } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { toActionState } from "@/components/form/utils/to-action-state";
+import { MembershipRole } from "@/lib/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { membershipsPath } from "@/paths";
 import { getAdminOrRedirect } from "../queries/get-admin-or-redirect";

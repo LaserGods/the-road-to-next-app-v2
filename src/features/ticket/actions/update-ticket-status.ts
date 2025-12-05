@@ -1,6 +1,5 @@
 "use server";
 
-import { TicketStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import {
   fromErrorToActionState,
@@ -8,6 +7,7 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
+import { TicketStatus } from "@/lib/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
 
