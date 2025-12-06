@@ -27,11 +27,13 @@ const useActionFeedback = (
   const prevTimestamp = useRef(actionState.timestamp);
 
   // Determine if the actionState has been updated
-  const isUpdate = prevTimestamp.current !== actionState.timestamp;
+  // const isUpdate = prevTimestamp.current !== actionState.timestamp;
 
   useEffect(() => {
     // Only run effect if there is an update
-    if (!isUpdate) return;
+    // if (!isUpdate) return;
+    const hasUpdate = prevTimestamp.current !== actionState.timestamp;
+    if (!hasUpdate) return;
 
     // Call onSuccess if the action completed successfully
     if (actionState.status === "SUCCESS") {
@@ -45,7 +47,7 @@ const useActionFeedback = (
 
     // Update the previous timestamp for the next render
     prevTimestamp.current = actionState.timestamp;
-  }, [isUpdate, actionState, options]);
+  }, [actionState, options]);
 };
 
 export { useActionFeedback };

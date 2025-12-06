@@ -1,15 +1,15 @@
 "use client";
 
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { LucideCalendar } from "lucide-react";
 import { useImperativeHandle, useState } from "react";
-import { Calendar } from "@/components/calendar-custom";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Calendar } from "./calendar-custom";
 
 export type ImperativeHandleFromDatePicker = {
   reset: () => void;
@@ -28,9 +28,13 @@ const DatePicker = ({
   defaultValue,
   imperativeHandleRef,
 }: DatePickerProps) => {
-  const [date, setDate] = useState<Date | undefined>(
-    defaultValue ? new Date(defaultValue) : new Date(),
-  );
+  const [date, setDate] = useState<Date | undefined>(() => {
+    if (defaultValue) {
+      const parsed = parse(defaultValue, "yyyy-MM-dd", new Date());
+      if (!Number.isNaN(parsed.getTime())) return parsed;
+    }
+    return new Date();
+  });
   const [open, setOpen] = useState(false);
 
   useImperativeHandle(imperativeHandleRef, () => ({
@@ -51,7 +55,7 @@ const DatePicker = ({
           variant="outline"
           className="justify-start text-left font-normal"
         >
-          <LucideCalendar className="mr-2 h-4 w-4" />
+          <LucideCalendar className="mr-2 size-4" />
           {formattedStringDate}
           <input type="hidden" name={name} value={formattedStringDate} />
         </Button>
