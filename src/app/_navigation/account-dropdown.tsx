@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { LucideLock, LucideLogOut, LucideUser } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -11,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/features/auth/actions/sign-out";
+import { User } from "@/lib/generated/prisma/browser";
 import { accountPasswordPath, accountProfilePath } from "@/paths";
 
 type AccountDropdownProps = {

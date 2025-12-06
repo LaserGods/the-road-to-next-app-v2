@@ -16,10 +16,18 @@ import { ticketPath, ticketsPath } from "@/paths";
 import { toCent } from "@/utils/currency";
 
 const upsertTicketSchema = z.object({
-  title: z.string().min(1).max(191),
-  content: z.string().min(1).max(1024),
+  title: z
+    .string()
+    .min(1, { error: "Title is required" })
+    .max(191, { error: "Title is too long" }),
+  content: z
+    .string()
+    .min(1, { error: "Content is required" })
+    .max(1024, { error: "Content is too long" }),
   deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Is required"),
-  bounty: z.coerce.number().positive(),
+  bounty: z.coerce
+    .number({ error: "Bounty must be a positive number" })
+    .positive({ message: "Bounty must be positive" }),
 });
 
 export const upsertTicket = async (

@@ -1,6 +1,6 @@
-import { Prisma } from "@prisma/client";
+import { CommentGetPayload } from "@/lib/generated/prisma/models/Comment";
 
-export type CommentWithMetadata = Prisma.CommentGetPayload<{
+export type CommentWithMetadata = CommentGetPayload<{
   include: {
     user: {
       select: { username: true };

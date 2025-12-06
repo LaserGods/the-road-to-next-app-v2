@@ -1,11 +1,10 @@
 generator client {
-    provider = "prisma-client-js"
+    provider = "prisma-client"
+    output   = "../src/lib/generated/prisma"
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("DATABASE_URL")
-    directUrl = env("DIRECT_URL")
+    provider = "postgresql"
 }
 
 model Organization {
@@ -14,6 +13,7 @@ model Organization {
     updatedAt   DateTime     @updatedAt
     name        String
     memberships Membership[]
+    permissions Permission[]
     tickets     Ticket[]
 }
 
@@ -26,7 +26,7 @@ model Membership {
     isActive        Boolean
     membershipRole  MembershipRole @default(MEMBER)
     // permissions
-    canDeleteTicket Boolean        @default(true)
+    canDeleteTicket Boolean        @default(false) // TODO: migrate to Permission model
 
     @@id(name: "membershipId", [organizationId, userId])
     @@index([organizationId])
@@ -36,6 +36,22 @@ model Membership {
 enum MembershipRole {
     ADMIN
     MEMBER
+}
+
+model Permission {
+    userId         String
+    organizationId String
+    key            String
+    value          Boolean      @default(false)
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime     @updatedAt
+    user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+    @@id(name: "permissionId", [userId, organizationId, key])
+    @@index([userId])
+    @@index([organizationId])
+    @@index([key])
 }
 
 model User {
@@ -48,6 +64,7 @@ model User {
     passwordResetTokens     PasswordResetToken[]
     emailVerificationTokens EmailVerificationToken[]
     memberships             Membership[]
+    permissions             Permission[]
     tickets                 Ticket[]
     comments                Comment[]
 }

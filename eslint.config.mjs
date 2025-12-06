@@ -1,38 +1,27 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import reactHooks from "eslint-plugin-react-hooks";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+import prettier from "eslint-config-prettier/flat";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  allConfig: js.configs.all,
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
-
-const eslintConfig = [
-  {
-    ignores: ["**/next-env.d.ts"],
-  },
-  ...fixupConfigRules(
-    compat.extends(
-      "eslint-config-prettier",
-      "next/core-web-vitals",
-      "next/typescript",
-      "prettier",
-    ),
-  ),
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  prettier,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
   {
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
     },
     plugins: {
-      "react-hooks": fixupPluginRules(reactHooks),
       "simple-import-sort": simpleImportSort,
     },
     rules: {
@@ -40,13 +29,15 @@ const eslintConfig = [
     },
   },
   {
-    files: ["**/*.ts?(x)"],
+    files: ["**/*.ts", "**/*.tsx"],
     rules: {
+      "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
           argsIgnorePattern: "^_",
           destructuredArrayIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
           ignoreRestSiblings: true,
         },
       ],
@@ -58,6 +49,6 @@ const eslintConfig = [
       ],
     },
   },
-];
+]);
 
 export default eslintConfig;

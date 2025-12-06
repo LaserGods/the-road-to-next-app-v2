@@ -1,6 +1,5 @@
 "use client";
 
-import { MembershipRole } from "@prisma/client";
 import { LucideUserCog } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { MembershipRole } from "@/lib/generated/prisma/enums";
 import { updateMembershipRole } from "../actions/update-membership-role";
 
 type MembershipMoreMenuProps = {

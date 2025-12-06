@@ -1,6 +1,5 @@
 "use client";
 
-import { Comment } from "@prisma/client";
 import { useActionState } from "react";
 import { FieldError } from "@/components/form/field-error";
 import { Form } from "@/components/form/form";
@@ -10,6 +9,7 @@ import {
   EMPTY_ACTION_STATE,
 } from "@/components/form/utils/to-action-state";
 import { Textarea } from "@/components/ui/textarea";
+import { Comment } from "@/lib/generated/prisma/browser";
 import { upsertComment } from "../actions/upsert-comment";
 import { CommentWithMetadata } from "../types";
 

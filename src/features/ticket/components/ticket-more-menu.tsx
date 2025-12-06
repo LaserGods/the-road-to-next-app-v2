@@ -1,6 +1,5 @@
 "use client";
 
-import { TicketStatus } from "@prisma/client";
 import { LucideTrash } from "lucide-react";
 import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
@@ -18,6 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { TicketStatus } from "@/lib/generated/prisma/enums";
 import { deleteTicket } from "../actions/delete-ticket";
 import { updateTicketStatus } from "../actions/update-ticket-status";
 import { TICKET_STATUS_LABELS } from "../constants";
