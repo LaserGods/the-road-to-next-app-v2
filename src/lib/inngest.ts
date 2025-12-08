@@ -1,4 +1,5 @@
 import { EventSchemas, Inngest } from "inngest";
+import { InvitationCreatedEventArgs } from "@/features/invitations/events/email-invitation-created";
 import { PasswordResetEventArgs } from "@/features/password/events/event-password-reset";
 
 type AuthSignUpEventArgs = {
@@ -10,6 +11,7 @@ type AuthSignUpEventArgs = {
 type Events = {
   "app/password.password-reset": PasswordResetEventArgs;
   "app/auth.sign-up": AuthSignUpEventArgs;
+  "app/invitation.created": InvitationCreatedEventArgs;
 };
 
 export const inngest = new Inngest({
