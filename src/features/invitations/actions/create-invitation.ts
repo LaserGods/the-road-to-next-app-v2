@@ -8,6 +8,7 @@ import {
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { getPermissionOrRedirect } from "@/features/permission/queries/get-permission-or-redirect";
+import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
 import { invitationsPath } from "@/paths";
 import { generateInvitationLink } from "../utils/generate-invitation-link";
@@ -53,8 +54,15 @@ export const createInvitation = async (
       email,
     );
 
-    // TODO: Send email with the invitation link
-    console.log("Invitation link:", emailInvitationLink);
+    await inngest.send({
+      name: "app/invitation.created",
+      data: {
+        userId: user.id,
+        organizationId,
+        email,
+        emailInvitationLink,
+      },
+    });
   } catch (error) {
     return fromErrorToActionState(error);
   }
