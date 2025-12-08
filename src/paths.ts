@@ -4,6 +4,7 @@ export const accountProfilePath = () => "/account/profile";
 export const commentEditPath = (ticketId: string, commentId: string) =>
   `/tickets/${ticketId}/${commentId}/edit`;
 
+export const emailInvitationPath = () => "/email-invitation";
 export const emailVerificationPath = () => "/email-verification";
 
 export const homePath = () => "/";

@@ -10,6 +10,7 @@ import {
 import { getPermissionOrRedirect } from "@/features/permission/queries/get-permission-or-redirect";
 import { prisma } from "@/lib/prisma";
 import { invitationsPath } from "@/paths";
+import { generateInvitationLink } from "../utils/generate-invitation-link";
 
 const createInvitationSchema = z.object({
   email: z.email({ error: "Please provide a valid email address." }),
@@ -20,7 +21,7 @@ export const createInvitation = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  await getPermissionOrRedirect({
+  const { user } = await getPermissionOrRedirect({
     organizationId,
     permissionKey: "invitation:create",
   });
@@ -46,7 +47,14 @@ export const createInvitation = async (
       );
     }
 
-    // TODO: Invite user by email link
+    const emailInvitationLink = await generateInvitationLink(
+      user.id,
+      organizationId,
+      email,
+    );
+
+    // TODO: Send email with the invitation link
+    console.log("Invitation link:", emailInvitationLink);
   } catch (error) {
     return fromErrorToActionState(error);
   }
