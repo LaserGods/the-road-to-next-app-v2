@@ -1,4 +1,8 @@
 import { hashPassword } from "@/features/password/utils/hash-and-verify";
+import {
+  ADMIN_ROLE_PERMISSIONS,
+  MEMBER_ROLE_PERMISSIONS,
+} from "@/features/permission/constants";
 import { prisma } from "@/lib/prisma";
 
 const users = [
@@ -50,12 +54,40 @@ const seed = async () => {
 
   await prisma.comment.deleteMany();
   await prisma.ticket.deleteMany();
+  await prisma.permission.deleteMany();
+  await prisma.membership.deleteMany();
   await prisma.user.deleteMany();
   await prisma.organization.deleteMany();
-  await prisma.membership.deleteMany();
-  await prisma.permission.deleteMany();
+  await prisma.rolePermission.deleteMany();
+  await prisma.role.deleteMany();
 
-  const passwordHash = await hashPassword("gusty-chewy"); // don't forget to change this password if you use the same database for development and production!
+  // Seed Roles
+  await prisma.role.createMany({
+    data: [
+      { name: "ADMIN", description: "Full access to all resources" },
+      { name: "MEMBER", description: "Limited access to resources" },
+    ],
+  });
+
+  // Seed RolePermissions for ADMIN
+  await prisma.rolePermission.createMany({
+    data: Object.entries(ADMIN_ROLE_PERMISSIONS).map(([key, value]) => ({
+      roleName: "ADMIN" as const,
+      key,
+      value,
+    })),
+  });
+
+  // Seed RolePermissions for MEMBER
+  await prisma.rolePermission.createMany({
+    data: Object.entries(MEMBER_ROLE_PERMISSIONS).map(([key, value]) => ({
+      roleName: "MEMBER" as const,
+      key,
+      value,
+    })),
+  });
+
+  const passwordHash = await hashPassword("gusty-chewy");
 
   const dbUsers = await prisma.user.createManyAndReturn({
     data: users.map((user) => ({
@@ -70,23 +102,6 @@ const seed = async () => {
     },
   });
 
-  await prisma.permission.createMany({
-    data: [
-      {
-        userId: dbUsers[0].id,
-        organizationId: dbOrganization.id,
-        key: "ticket:update",
-        value: true,
-      },
-      {
-        userId: dbUsers[1].id,
-        organizationId: dbOrganization.id,
-        key: "ticket:update",
-        value: false,
-      },
-    ],
-  });
-
   await prisma.membership.createMany({
     data: [
       {
@@ -94,7 +109,6 @@ const seed = async () => {
         organizationId: dbOrganization.id,
         isActive: true,
         membershipRole: "ADMIN",
-        canDeleteTicket: true,
       },
       {
         userId: dbUsers[1].id,

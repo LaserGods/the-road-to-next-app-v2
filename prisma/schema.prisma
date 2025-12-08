@@ -15,18 +15,17 @@ model Organization {
     memberships Membership[]
     permissions Permission[]
     tickets     Ticket[]
+    invitations Invitation[]
 }
 
 model Membership {
-    organization    Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-    organizationId  String
-    user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId          String
-    joinedAt        DateTime       @default(now())
-    isActive        Boolean
-    membershipRole  MembershipRole @default(MEMBER)
-    // permissions
-    canDeleteTicket Boolean        @default(false) // TODO: migrate to Permission model
+    organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    organizationId String
+    user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId         String
+    joinedAt       DateTime       @default(now())
+    isActive       Boolean
+    membershipRole MembershipRole @default(MEMBER)
 
     @@id(name: "membershipId", [organizationId, userId])
     @@index([organizationId])
@@ -36,6 +35,41 @@ model Membership {
 enum MembershipRole {
     ADMIN
     MEMBER
+}
+
+model Role {
+    name        MembershipRole   @id
+    description String?
+    createdAt   DateTime         @default(now())
+    updatedAt   DateTime         @updatedAt
+    permissions RolePermission[]
+}
+
+// New: RolePermission stores default permissions for each role
+model RolePermission {
+    role      Role           @relation(fields: [roleName], references: [name], onDelete: Cascade)
+    roleName  MembershipRole
+    key       String
+    value     Boolean        @default(false)
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @updatedAt
+
+    @@id(name: "rolePermissionId", [roleName, key])
+    @@index([roleName])
+    @@index([key])
+}
+
+model Invitation {
+    createdAt       DateTime     @default(now())
+    updatedAt       DateTime     @updatedAt
+    tokenHash       String       @unique
+    email           String
+    organizationId  String
+    organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    invitedByUserId String?
+    invitedByUser   User?        @relation(fields: [invitedByUserId], references: [id], onDelete: SetNull)
+
+    @@index([organizationId])
 }
 
 model Permission {
@@ -67,6 +101,7 @@ model User {
     permissions             Permission[]
     tickets                 Ticket[]
     comments                Comment[]
+    invitation              Invitation[]
 }
 
 model EmailVerificationToken {
