@@ -8,6 +8,9 @@ export const emailVerificationPath = () => "/email-verification";
 
 export const homePath = () => "/";
 
+export const invitationsPath = (organizationId: string) =>
+  `/organization/${organizationId}/invitations`;
+
 export const membershipsPath = (organizationId: string) =>
   `/organization/${organizationId}/memberships`;
 
