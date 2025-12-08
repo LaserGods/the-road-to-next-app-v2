@@ -1,8 +1,11 @@
-import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
+import { getPermissionOrRedirect } from "@/features/permission/queries/get-permission-or-redirect";
 import { prisma } from "@/lib/prisma";
 
 export const getInvitations = async (organizationId: string) => {
-  await getAdminOrRedirect(organizationId);
+  await getPermissionOrRedirect({
+    organizationId,
+    permissionKey: "invitation:view",
+  });
 
   return await prisma.invitation.findMany({
     where: {

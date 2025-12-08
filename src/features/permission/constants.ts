@@ -1,5 +1,17 @@
 import { Permission } from "./types";
 
+export const CRITICAL_PERMISSIONS = [
+  "organization:view",
+  "organization:update",
+  "organization:delete",
+  "membership:view",
+  "membership:update",
+  "membership:delete",
+  "invitation:view",
+  "invitation:create",
+  "invitation:delete",
+] as const;
+
 export const PERMISSION_LABELS = {
   "organization:delete": "Can Delete Organization",
   "organization:update": "Can Update Organization",

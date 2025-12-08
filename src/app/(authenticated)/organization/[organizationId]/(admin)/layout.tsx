@@ -1,4 +1,4 @@
-import { getAdminOrRedirect } from "@/features/membership/queries/get-admin-or-redirect";
+import { getPermissionOrRedirect } from "@/features/permission/queries/get-permission-or-redirect";
 
 export default async function AdminLayout({
   children,
@@ -9,7 +9,10 @@ export default async function AdminLayout({
 }>) {
   const { organizationId } = await params;
 
-  await getAdminOrRedirect(organizationId);
+  await getPermissionOrRedirect({
+    organizationId,
+    permissionKey: ["membership:view", "invitation:view"],
+  });
 
   return <>{children}</>;
 }
