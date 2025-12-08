@@ -1,4 +1,4 @@
-export type Permission = Record<string, boolean>;
+import { Permission } from "./types";
 
 export const PERMISSION_LABELS = {
   "organization:delete": "Can Delete Organization",
@@ -25,7 +25,8 @@ export const PERMISSION_LABELS = {
   "invitation:view": "Can View Invitation",
 } as const;
 
-export const MEMBER_ROLE_PERMISSIONS: Record<string, boolean> = {
+// Default membership role permissions used for seeding purposes
+export const MEMBER_ROLE_PERMISSIONS: Permission = {
   "organization:delete": false,
   "organization:update": false,
   "organization:view": true,
@@ -50,7 +51,7 @@ export const MEMBER_ROLE_PERMISSIONS: Record<string, boolean> = {
   "invitation:view": true,
 };
 
-export const ADMIN_ROLE_PERMISSIONS: Record<string, boolean> = {
+export const ADMIN_ROLE_PERMISSIONS: Permission = {
   "organization:delete": true,
   "organization:update": true,
   "organization:view": true,

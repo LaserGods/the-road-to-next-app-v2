@@ -13,6 +13,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
@@ -26,20 +31,39 @@ type TicketItemProps = {
 };
 
 const TicketItem = ({ ticket, isDetail, comments }: TicketItemProps) => {
+  const canUpdateTicket = ticket.permissions["ticket:update"] ?? false;
+
   const detailButton = (
     <Button variant="outline" size="icon" asChild>
       <Link prefetch href={ticketPath(ticket.id)}>
-        <LucideArrowUpRightFromSquare className="h-4 w-4" />
+        <LucideArrowUpRightFromSquare className="size-4" />
       </Link>
     </Button>
   );
 
   const editButton = ticket.isOwner ? (
-    <Button variant="outline" size="icon" asChild>
-      <Link prefetch href={ticketEditPath(ticket.id)}>
-        <LucidePencil className="h-4 w-4" />
-      </Link>
-    </Button>
+    canUpdateTicket ? (
+      <Button variant="outline" size="icon" asChild>
+        <Link prefetch href={ticketEditPath(ticket.id)}>
+          <LucidePencil className="size-4" />
+        </Link>
+      </Button>
+    ) : (
+      <Tooltip>
+        <TooltipTrigger>
+          <div className="focus-visible:border-ring focus-visible:ring-ring/50 bg-background dark:bg-input/30 dark:border-input pointer-events-none inline-flex size-9 shrink-0 items-center justify-center gap-2 rounded-md border text-sm font-medium whitespace-nowrap opacity-50 shadow-xs transition-all outline-none focus-visible:ring-[3px] [&_svg]:shrink-0">
+            <LucidePencil className="size-4" />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent
+          variant={"secondary"}
+          arrowVariant={"secondaryArrow"}
+          side={"right"}
+        >
+          <span>Insufficient permissions</span>
+        </TooltipContent>
+      </Tooltip>
+    )
   ) : null;
 
   const moreMenu = ticket.isOwner ? (
@@ -47,7 +71,7 @@ const TicketItem = ({ ticket, isDetail, comments }: TicketItemProps) => {
       ticket={ticket}
       trigger={
         <Button variant="outline" size="icon">
-          <LucideMoreVertical className="h-4 w-4" />
+          <LucideMoreVertical className="size-4" />
         </Button>
       }
     />
@@ -78,10 +102,10 @@ const TicketItem = ({ ticket, isDetail, comments }: TicketItemProps) => {
             </span>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {ticket.deadline} by {ticket.user.username}
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {toCurrencyFromCent(ticket.bounty)}
             </p>
           </CardFooter>

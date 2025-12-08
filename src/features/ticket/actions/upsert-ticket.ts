@@ -11,6 +11,7 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
+import { getPermission } from "@/features/permission/queries/get-permission";
 import { prisma } from "@/lib/prisma";
 import { ticketPath, ticketsPath } from "@/paths";
 import { toCent } from "@/utils/currency";
@@ -46,6 +47,16 @@ export const upsertTicket = async (
       });
 
       if (!ticket || !isOwner(user, ticket)) {
+        return toActionState("ERROR", "Not authorized.");
+      }
+
+      const updatePermission = await getPermission({
+        organizationId: ticket.organizationId,
+        userId: user.id,
+        key: "ticket:update",
+      });
+
+      if (!updatePermission) {
         return toActionState("ERROR", "Not authorized.");
       }
     }

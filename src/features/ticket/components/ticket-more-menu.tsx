@@ -29,6 +29,7 @@ type TicketMoreMenuProps = {
 };
 
 const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
+  const canUpdateTicket = ticket.permissions["ticket:update"] ?? false;
   const [deleteButton, deleteDialog] = useConfirmDialog({
     action: deleteTicket.bind(null, ticket.id),
     trigger: (
@@ -61,21 +62,28 @@ const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
       onValueChange={handleUpdateTicketStatus}
     >
       {(Object.keys(TICKET_STATUS_LABELS) as Array<TicketStatus>).map((key) => (
-        <DropdownMenuRadioItem key={key} value={key}>
+        <DropdownMenuRadioItem
+          key={key}
+          value={key}
+          disabled={!canUpdateTicket}
+        >
           {TICKET_STATUS_LABELS[key]}
         </DropdownMenuRadioItem>
       ))}
     </DropdownMenuRadioGroup>
   );
 
-  const deleteButtonWithTooltip = ticket.permissions.canDeleteTicket ? (
+  const deleteButtonWithTooltip = ticket.permissions["ticket:delete"] ? (
     deleteButton
   ) : (
     <Tooltip>
       <TooltipTrigger asChild>
         <DropdownMenuItem className="opacity-50">
           <LucideTrash className="h-4 w-4" />
-          <span>Delete</span>
+          <span>
+            Delete
+            <em> - not authorized</em>
+          </span>
         </DropdownMenuItem>
       </TooltipTrigger>
       <TooltipContent

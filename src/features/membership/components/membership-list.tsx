@@ -13,10 +13,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { getPermissions } from "@/features/permission/queries/get-permissions";
 import { getMemberships } from "../queries/get-memberships";
 import { MembershipDeleteButton } from "./membership-delete-button";
 import { MembershipMoreMenu } from "./membership-more-menu";
-import { PermissionToggle } from "./permission-toggle";
+// import { PermissionToggle } from "./permission-toggle";
 
 type MembershipListProps = {
   organizationId: string;
@@ -29,6 +30,9 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
     return null;
   }
 
+  const memberPermissions = async (userId: string, organizationId: string) =>
+    await getPermissions({ userId, organizationId });
+
   return (
     <Table>
       <TableHeader>
@@ -38,17 +42,21 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
           <TableHead className="text-center">Joined At</TableHead>
           <TableHead className="text-center">Email Verified</TableHead>
           <TableHead className="text-center">Role</TableHead>
-          <TableHead className="text-center">Can Delete Ticket</TableHead>
+          {/* <TableHead className="text-center">Can Delete Ticket</TableHead> */}
           <TableHead className="text-right" />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {memberships.organizationMemberships.map((membership) => {
+        {memberships.organizationMemberships.map(async (membership) => {
           const membershipMoreMenu = (
             <MembershipMoreMenu
               userId={membership.userId}
               organizationId={organizationId}
               membershipRole={membership.membershipRole}
+              permissions={await memberPermissions(
+                membership.userId,
+                organizationId,
+              )}
             />
           );
 
@@ -105,17 +113,17 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
               <TableCell className="w-28 text-center">
                 {membership.membershipRole}
               </TableCell>
-              <TableCell>
+              {/* Permission Toggle is being moved into a PermissionPopover or PermissionDialog where admins can manage each user's permissions */}
+              {/*               <TableCell>
                 <div className="flex justify-center">
-                  {/* {membership.canDeleteTicket ? <LucideCheck /> : <LucideBan />} */}
                   <PermissionToggle
                     userId={membership.userId}
                     organizationId={organizationId}
-                    permissionKey="canDeleteTicket"
+                    permissionKey="ticket:delete"
                     permissionValue={membership.canDeleteTicket}
                   />
                 </div>
-              </TableCell>
+              </TableCell> */}
               <TableCell className="flex items-center justify-end space-x-2">
                 {buttons}
               </TableCell>

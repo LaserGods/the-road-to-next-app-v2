@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { getPermissions } from "@/features/permission/queries/get-permissions";
 
 type GetTicketPermissions = {
   organizationId: string | undefined;
@@ -8,29 +8,18 @@ type GetTicketPermissions = {
 export const getTicketPermissions = async ({
   organizationId,
   userId,
-}: GetTicketPermissions) => {
+}: GetTicketPermissions): Promise<Record<string, boolean>> => {
   if (!organizationId || !userId) {
-    return {
-      canDeleteTicket: false,
-    };
+    return {};
   }
 
-  const membership = await prisma.membership.findUnique({
-    where: {
-      membershipId: {
-        userId,
-        organizationId,
-      },
-    },
+  const permissions = await getPermissions({
+    organizationId,
+    userId,
   });
 
-  if (!membership) {
-    return {
-      canDeleteTicket: false,
-    };
-  }
-
-  return {
-    canDeleteTicket: membership.canDeleteTicket,
-  };
+  // Filter to only ticket:* keys
+  return Object.fromEntries(
+    Object.entries(permissions).filter(([key]) => key.startsWith("ticket:")),
+  );
 };
