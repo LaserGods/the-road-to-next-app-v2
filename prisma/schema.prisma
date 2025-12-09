@@ -60,16 +60,23 @@ model RolePermission {
 }
 
 model Invitation {
-    createdAt       DateTime     @default(now())
-    updatedAt       DateTime     @updatedAt
-    tokenHash       String       @unique
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+    tokenHash       String           @unique
     email           String
     organizationId  String
-    organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    organization    Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     invitedByUserId String?
-    invitedByUser   User?        @relation(fields: [invitedByUserId], references: [id], onDelete: SetNull)
+    invitedByUser   User?            @relation(fields: [invitedByUserId], references: [id], onDelete: SetNull)
+    status          InvitationStatus @default(PENDING)
 
     @@index([organizationId])
+}
+
+enum InvitationStatus {
+    PENDING
+    ACCEPTED_WITHOUT_ACCOUNT
+    DECLINED
 }
 
 model Permission {
