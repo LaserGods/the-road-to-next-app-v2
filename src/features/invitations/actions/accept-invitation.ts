@@ -1,3 +1,5 @@
+"use server";
+
 import { redirect } from "next/navigation";
 import { setCookieByKey } from "@/actions/cookies";
 import {
