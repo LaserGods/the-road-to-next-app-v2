@@ -21,6 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { MembershipDeleteButton } from "@/features/membership/components/membership-delete-button";
+import { getPermissions } from "@/features/permission/queries/get-permissions";
 import { membershipsPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 import { OrganizationDeleteButton } from "./organization-delete-button";
@@ -35,6 +36,19 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
 
   const hasActive = organizations.some((org) => org.membershipByUser.isActive);
 
+  // Fetch the user's permissions for all organizations in parallel
+  // This permission check is only for UI purposes
+  // DB queries and server actions also enforce permission checks
+  const organizationsWithPermissions = await Promise.all(
+    organizations.map(async (org) => {
+      const permissions = await getPermissions({
+        userId: org.membershipByUser.userId,
+        organizationId: org.id,
+      });
+      return { ...org, permissions };
+    }),
+  );
+
   return (
     <Table>
       <TableHeader>
@@ -48,9 +62,15 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {organizations.map((org) => {
+        {organizationsWithPermissions.map((org) => {
           const isActive = org.membershipByUser.isActive;
-          const isAdmin = org.membershipByUser.membershipRole === "ADMIN";
+          const permissions = org.permissions;
+
+          const canViewMemeberships = permissions["membership:view"] ?? false;
+          const canUpdateOrganization =
+            permissions["organization:update"] ?? false;
+          const canDeleteOrganization =
+            permissions["organization:delete"] ?? false;
 
           const switchButton = (
             <OrganizationSwitchButton
@@ -134,10 +154,22 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           const actionButtons = (
             <>
               {switchButton}
-              {limitedAccess ? null : isAdmin ? detailButton : placeholder}
-              {limitedAccess ? null : isAdmin ? editButton : placeholder}
+              {limitedAccess
+                ? null
+                : canViewMemeberships
+                  ? detailButton
+                  : placeholder}
+              {limitedAccess
+                ? null
+                : canUpdateOrganization
+                  ? editButton
+                  : placeholder}
               {limitedAccess ? null : leaveButton}
-              {limitedAccess ? null : isAdmin ? deleteButton : placeholder}
+              {limitedAccess
+                ? null
+                : canDeleteOrganization
+                  ? deleteButton
+                  : placeholder}
             </>
           );
           return (

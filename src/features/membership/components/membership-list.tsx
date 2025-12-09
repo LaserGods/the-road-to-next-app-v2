@@ -13,7 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getPermissions } from "@/features/permission/queries/get-permissions";
+import { loadEffectivePermissions } from "@/features/permission/utils/load-effective-permissions";
 import { getMemberships } from "../queries/get-memberships";
 import { MembershipDeleteButton } from "./membership-delete-button";
 import { MembershipMoreMenu } from "./membership-more-menu";
@@ -29,8 +29,29 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
     return null;
   }
 
-  const memberPermissions = async (userId: string, organizationId: string) =>
-    await getPermissions({ userId, organizationId });
+  // Load permissions for current user and all members in parallel
+  // This permission check is only for UI purposes
+  // DB queries and server actions also enforce permission checks
+  const [currentUserPermissionsMap, ...memberPermissionsMaps] =
+    await Promise.all([
+      loadEffectivePermissions(memberships.currentUser.user.id, organizationId),
+      ...memberships.organizationMemberships.map((membership) =>
+        loadEffectivePermissions(membership.userId, organizationId),
+      ),
+    ]);
+
+  const currentUserPermissions = Object.fromEntries(currentUserPermissionsMap);
+  const canUpdateMembership =
+    currentUserPermissions["membership:update"] ?? false;
+  const canDeleteMembership =
+    currentUserPermissions["membership:delete"] ?? false;
+
+  const membershipWithPermissions = memberships.organizationMemberships.map(
+    (membership, index) => ({
+      ...membership,
+      permissions: Object.fromEntries(memberPermissionsMaps[index]),
+    }),
+  );
 
   return (
     <Table>
@@ -45,16 +66,13 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {memberships.organizationMemberships.map(async (membership) => {
+        {membershipWithPermissions.map((membership) => {
           const membershipMoreMenu = (
             <MembershipMoreMenu
               userId={membership.userId}
               organizationId={organizationId}
               membershipRole={membership.membershipRole}
-              permissions={await memberPermissions(
-                membership.userId,
-                organizationId,
-              )}
+              permissions={membership.permissions}
             />
           );
 
@@ -64,10 +82,26 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
               userId={membership.userId}
             />
           );
+
+          const placeholder = (
+            <Tooltip delayDuration={50}>
+              <TooltipTrigger asChild>
+                <div className="focus-visible:border-ring focus-visible:ring-ring/50 size-9 rounded-md bg-linear-[135deg,hsla(210,40%,96.1%,0.45),hsla(210,40%,96.1%,0.15)] outline-none focus-visible:ring-[3px]" />
+              </TooltipTrigger>
+              <TooltipContent
+                variant={"outline"}
+                typography={"mono"}
+                arrowVariant={"outlineArrow"}
+              >
+                <span>Insufficient permissions</span>
+              </TooltipContent>
+            </Tooltip>
+          );
+
           const buttons = (
             <>
-              {membershipMoreMenu}
-              {deleteButton}
+              {canUpdateMembership ? membershipMoreMenu : placeholder}
+              {canDeleteMembership ? deleteButton : placeholder}
             </>
           );
 
