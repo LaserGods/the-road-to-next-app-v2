@@ -1,7 +1,7 @@
 import { serve } from "inngest/next";
 import { emailVerificationEvent } from "@/features/auth/events/event-email-verification";
 import { welcomeEmailEvent } from "@/features/auth/events/event-welcome-email";
-import { invitationCreatedEvent } from "@/features/invitations/events/email-invitation-created";
+import { invitationCreatedEvent } from "@/features/invitations/events/event-invitation-created";
 import { passwordResetEvent } from "@/features/password/events/event-password-reset";
 import { inngest } from "@/lib/inngest";
 

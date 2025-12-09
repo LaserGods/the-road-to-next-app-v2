@@ -1,5 +1,5 @@
 import { EventSchemas, Inngest } from "inngest";
-import { InvitationCreatedEventArgs } from "@/features/invitations/events/email-invitation-created";
+import { InvitationCreatedEventArgs } from "@/features/invitations/events/event-invitation-created";
 import { PasswordResetEventArgs } from "@/features/password/events/event-password-reset";
 
 type AuthSignUpEventArgs = {
