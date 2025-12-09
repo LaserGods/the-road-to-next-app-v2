@@ -25,21 +25,24 @@ const EmailInvitation = ({
     <Html>
       <Head />
       <Tailwind>
-        <Body className="m-8 text-center font-sans">
+        <Body className="m-8 bg-white text-center font-sans">
           <Preview>
             Invitation to join {fromOrganization} on TicketBounty
           </Preview>
           <Container>
             <Section>
-              <Text>
-                Hello there, {fromUser} invited you to join {fromOrganization}.
+              <Text className="text-sm">
+                Hello there, <strong>{fromUser}</strong> invited you to join{" "}
+                <strong>{fromOrganization}</strong>.
+              </Text>
+              <Text className="mt-4 text-sm">
                 Click the link below to accept the invitation.
               </Text>
             </Section>
             <Section>
               <Button
                 href={url}
-                className="m-2 rounded bg-black p-2 text-white"
+                className="m-2 rounded-lg bg-black p-2 text-center align-middle text-white"
               >
                 Accept Invitation
               </Button>
