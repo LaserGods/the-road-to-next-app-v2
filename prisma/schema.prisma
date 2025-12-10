@@ -70,6 +70,7 @@ model Invitation {
     invitedByUser   User?            @relation(fields: [invitedByUserId], references: [id], onDelete: SetNull)
     status          InvitationStatus @default(PENDING)
 
+    @@id(name: "invitationId", [email, organizationId])
     @@index([organizationId])
 }
 

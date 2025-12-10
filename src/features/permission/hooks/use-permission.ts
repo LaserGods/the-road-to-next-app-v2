@@ -13,8 +13,8 @@ type UsePermissionProps = {
 const usePermission = ({ userId, organizationId, key }: UsePermissionProps) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["permission", userId, organizationId, key],
-    queryFn: () =>
-      getPermission({
+    queryFn: async () =>
+      await getPermission({
         userId: userId!,
         organizationId: organizationId!,
         key,
