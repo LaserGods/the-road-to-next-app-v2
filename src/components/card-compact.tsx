@@ -28,7 +28,7 @@ const CardCompact = ({
   return (
     <Card className={cn(centerContent && "text-center", className)}>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>{content}</CardContent>

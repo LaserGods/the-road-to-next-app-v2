@@ -87,9 +87,9 @@ const TicketItem = ({ ticket, isDetail, comments }: TicketItemProps) => {
       <div className="flex gap-x-2">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="flex gap-x-2">
+            <CardTitle className="flex items-center gap-x-2">
               <span>{TICKET_ICONS[ticket.status]}</span>
-              <span className="truncate">{ticket.title}</span>
+              <span className="truncate text-2xl">{ticket.title}</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
