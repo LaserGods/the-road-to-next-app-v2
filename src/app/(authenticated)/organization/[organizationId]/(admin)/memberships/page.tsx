@@ -3,7 +3,8 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
 import { InvitationCreateButton } from "@/features/invitations/components/invitation-create-button";
 import { MembershipList } from "@/features/membership/components/membership-list";
-import { OrganizationBreadcrumbs } from "../_navigation/tabs";
+import { getOrganizationName } from "@/features/organization/queries/get-organization-name";
+import { OrganizationBreadcrumbs, OrganizationTabs } from "../_navigation/tabs";
 
 type MembershipsPageProps = {
   params: Promise<{
@@ -13,12 +14,16 @@ type MembershipsPageProps = {
 
 const MembershipsPage = async ({ params }: MembershipsPageProps) => {
   const { organizationId } = await params;
+  const organization = await getOrganizationName(organizationId);
   return (
     <div className="flex flex-1 flex-col gap-y-8">
       <Heading
         title="Memberships"
         description="Manage members in your organization"
-        tabs={<OrganizationBreadcrumbs />}
+        breadcrumbs={
+          <OrganizationBreadcrumbs organizationName={organization.name} />
+        }
+        tabs={<OrganizationTabs />}
         actions={<InvitationCreateButton organizationId={organizationId} />}
       />
 

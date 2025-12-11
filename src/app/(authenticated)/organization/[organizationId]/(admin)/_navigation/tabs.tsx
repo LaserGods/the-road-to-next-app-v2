@@ -1,38 +1,44 @@
 "use client";
 
+import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { invitationsPath, membershipsPath, organizationsPath } from "@/paths";
 
-const OrganizationBreadcrumbs = () => {
-  const params = useParams<{ organizationId: string }>();
-  const pathName = usePathname();
+type OrganizationBreadcrumbsProps = {
+  organizationName: string;
+};
 
-  const title = {
-    memberships: "Memberships" as const,
-    invitations: "Invitations" as const,
-  }[pathName.split("/").at(-1) as "memberships" | "invitations"];
-
+const OrganizationBreadcrumbs = ({
+  organizationName,
+}: OrganizationBreadcrumbsProps) => {
   return (
     <Breadcrumbs
       breadcrumbs={[
         { title: "Organizations", href: organizationsPath() },
-        {
-          title,
-          dropdown: [
-            {
-              title: "Memberships",
-              href: membershipsPath(params.organizationId),
-            },
-            {
-              title: "Invitations",
-              href: invitationsPath(params.organizationId),
-            },
-          ],
-        },
+        { title: organizationName },
       ]}
     />
   );
 };
 
-export { OrganizationBreadcrumbs };
+const OrganizationTabs = () => {
+  const params = useParams<{ organizationId: string }>();
+  const pathName = usePathname();
+
+  return (
+    <Tabs value={pathName.split("/").at(-1)}>
+      <TabsList>
+        <TabsTrigger value="memberships" asChild>
+          <Link href={membershipsPath(params.organizationId)}>Memberships</Link>
+        </TabsTrigger>
+        <TabsTrigger value="invitations" asChild>
+          <Link href={invitationsPath(params.organizationId)}>Invitations</Link>
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
+  );
+};
+
+export { OrganizationBreadcrumbs, OrganizationTabs };
