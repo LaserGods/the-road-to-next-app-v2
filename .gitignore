@@ -42,3 +42,4 @@ next-env.d.ts
 
 # generated prisma client and query engine
 src/lib/generated/
+.env*.local

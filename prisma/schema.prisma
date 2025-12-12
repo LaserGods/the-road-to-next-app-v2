@@ -155,6 +155,7 @@ model Ticket {
     organizationId String
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     comments       Comment[]
+    attachments    Attachment[]
 
     @@index([userId])
     @@index([organizationId])
@@ -167,15 +168,35 @@ enum TicketStatus {
 }
 
 model Comment {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    content   String   @db.Text
-    ticketId  String
-    ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-    userId    String?
-    user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+    id          String       @id @default(cuid())
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    content     String       @db.Text
+    ticketId    String
+    ticket      Ticket       @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+    userId      String?
+    user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+    attachments Attachment[]
 
     @@index([ticketId])
     @@index([userId])
+}
+
+model Attachment {
+    id   String @id @default(cuid())
+    name String
+
+    entity    AttachmentEntity
+    ticket    Ticket?          @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+    ticketId  String?
+    comment   Comment?         @relation(fields: [commentId], references: [id], onDelete: Cascade)
+    commentId String?
+
+    @@index([ticketId])
+    @@index([commentId])
+}
+
+enum AttachmentEntity {
+    TICKET
+    COMMENT
 }
