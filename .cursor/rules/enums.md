@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 Do not introduce new enums into the codebase. Retain existing enums.
 
 If you require enum-like behaviour, use an `as const` object:
@@ -15,7 +11,8 @@ const backendToFrontendEnum = {
 
 type LowerCaseEnum = keyof typeof backendToFrontendEnum; // "xs" | "sm" | "md"
 
-type UpperCaseEnum = (typeof backendToFrontendEnum)[LowerCaseEnum]; // "EXTRA_SMALL" | "SMALL" | "MEDIUM"
+type UpperCaseEnum =
+  (typeof backendToFrontendEnum)[LowerCaseEnum]; // "EXTRA_SMALL" | "SMALL" | "MEDIUM"
 ```
 
 Remember that numeric enums behave differently to string enums. Numeric enums produce a reverse mapping:

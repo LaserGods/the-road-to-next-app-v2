@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 Proactively use discriminated unions to model data that can be in one of a few different shapes.
 
 For example, when sending events between environments:

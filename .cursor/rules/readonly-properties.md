@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 Use `readonly` properties for object types by default. This will prevent accidental mutation at runtime.
 
 Omit `readonly` only when the property is genuinely mutable.

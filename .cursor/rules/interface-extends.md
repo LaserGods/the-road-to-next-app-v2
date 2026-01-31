@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 ALWAYS prefer interfaces when modelling inheritance.
 
 The `&` operator has terrible performance in TypeScript. Only use it where `interface extends` is not possible.

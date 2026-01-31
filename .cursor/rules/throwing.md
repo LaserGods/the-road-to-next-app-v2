@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 Think carefully before implementing code that throws errors.
 
 If a thrown error produces a desirable outcome in the system, go for it. For instance, throwing a custom error inside a backend framework's request handler.
@@ -17,7 +13,9 @@ type Result<T, E extends Error> =
 For example, when parsing JSON:
 
 ```ts
-const parseJson = (input: string): Result<unknown, Error> => {
+const parseJson = (
+  input: string,
+): Result<unknown, Error> => {
   try {
     return { ok: true, value: JSON.parse(input) };
   } catch (error) {

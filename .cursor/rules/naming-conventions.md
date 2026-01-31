@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 - Use kebab-case for file names (e.g., `my-component.ts`)
 - Use camelCase for variables and function names (e.g., `myVariable`, `myFunction()`)
 - Use UpperCamelCase (PascalCase) for classes, types, and interfaces (e.g., `MyClass`, `MyInterface`)

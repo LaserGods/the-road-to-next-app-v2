@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 When installing libraries, do not rely on your own training data.
 
 Your training data has a cut-off date. You're probably not aware of all of the latest developments in the JavaScript and TypeScript world.

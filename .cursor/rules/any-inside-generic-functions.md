@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 When building generic functions, you may need to use any inside the function body.
 
 This is because TypeScript often cannot match your runtime logic to the logic done inside your types.
@@ -9,7 +5,9 @@ This is because TypeScript often cannot match your runtime logic to the logic do
 One example:
 
 ```ts
-const youSayGoodbyeISayHello = <TInput extends "hello" | "goodbye">(
+const youSayGoodbyeISayHello = <
+  TInput extends "hello" | "goodbye",
+>(
   input: TInput,
 ): TInput extends "hello" ? "goodbye" : "hello" => {
   if (input === "goodbye") {
@@ -27,7 +25,9 @@ There is no way to make this work concisely in TypeScript.
 So using `any` is the most concise solution:
 
 ```ts
-const youSayGoodbyeISayHello = <TInput extends "hello" | "goodbye">(
+const youSayGoodbyeISayHello = <
+  TInput extends "hello" | "goodbye",
+>(
   input: TInput,
 ): TInput extends "hello" ? "goodbye" : "hello" => {
   if (input === "goodbye") {

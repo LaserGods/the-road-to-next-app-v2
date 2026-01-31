@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 Unless explicitly required by the framework, do not use default exports.
 
 ```ts

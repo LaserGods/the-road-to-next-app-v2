@@ -1,7 +1,3 @@
----
-applyTo: "**/*.ts,**/*.tsx"
----
-
 Use JSDoc comments to annotate functions and types.
 
 Be concise in JSDoc comments, and only provide JSDoc comments if the function's behaviour is not self-evident.
