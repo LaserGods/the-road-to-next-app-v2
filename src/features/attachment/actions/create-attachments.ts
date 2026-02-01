@@ -1,6 +1,6 @@
 "use server";
 
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 import {
@@ -82,7 +82,9 @@ export const createAttachments = async (
     return toActionState("ERROR", "You do not own this subject.");
   }
 
-  let attachment;
+  const attachments = [];
+  const uploadedKeys: string[] = [];
+
   try {
     const { files } = createAttachmentsSchema.parse({
       files: formData.getAll("files"),
@@ -91,7 +93,7 @@ export const createAttachments = async (
     for (const file of files) {
       const buffer = Buffer.from(await file.arrayBuffer());
 
-      attachment = await prisma.attachment.create({
+      const attachment = await prisma.attachment.create({
         data: {
           name: file.name,
           ...(entity === "TICKET" ? { ticketId: entityId } : {}),
@@ -102,29 +104,54 @@ export const createAttachments = async (
 
       const organizationId = getOrganizationIdByAttachment(entity, subject);
 
+      const key = generateS3Key({
+        organizationId,
+        entityId,
+        entity,
+        fileName: file.name,
+        attachmentId: attachment.id,
+      });
+
       await s3.send(
         new PutObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME,
-          Key: generateS3Key({
-            organizationId,
-            entityId,
-            entity,
-            fileName: file.name,
-            attachmentId: attachment.id,
-          }),
+          Key: key,
           Body: buffer,
           ContentType: file.type,
         }),
       );
+
+      attachments.push(attachment);
+      uploadedKeys.push(key);
     }
   } catch (error) {
-    if (attachment) {
-      await prisma.attachment.delete({
-        where: {
-          id: attachment.id,
-        },
-      });
-    }
+    // Rollback S3 uploads
+    await Promise.all(
+      uploadedKeys.map((key) =>
+        s3
+          .send(
+            new DeleteObjectCommand({
+              Bucket: process.env.AWS_BUCKET_NAME,
+              Key: key,
+            }),
+          )
+          .catch(() => null),
+      ),
+    );
+
+    // Rollback database attachments
+    await Promise.all(
+      attachments.map((attachment) =>
+        prisma.attachment
+          .delete({
+            where: {
+              id: attachment.id,
+            },
+          })
+          .catch(() => null),
+      ),
+    );
+
     return fromErrorToActionState(error);
   }
 
