@@ -53,7 +53,7 @@ const DatePicker = ({
       <PopoverTrigger id={id} className="w-full" asChild>
         <Button
           variant="outline"
-          className="justify-start text-left font-normal"
+          className="h-10 justify-start rounded-md text-left font-normal"
         >
           <LucideCalendar className="mr-2 size-4" />
           {formattedStringDate}
