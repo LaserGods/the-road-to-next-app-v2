@@ -1,6 +1,5 @@
 "use client";
 
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { LucidePencil } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -10,11 +9,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { commentEditPath } from "@/paths";
 import { PaginatedData } from "@/types/pagination";
-import { getComments } from "../queries/get-comments";
-import { CommentWithMetadata } from "../types";
-import { CommentDeleteButton } from "./comment-delete-button";
-import { CommentItem } from "./comment-item";
-import { CommentUpsertForm } from "./comment-upsert-form";
+import { CommentWithMetadata } from "../../types";
+import { CommentDeleteButton } from "../comment-delete-button";
+import { CommentItem } from "../comment-item";
+import { CommentUpsertForm } from "../comment-upsert-form";
+import { usePaginatedComments } from "./use-paginated-comments";
 
 type CommentsProps = {
   ticketId: string;
@@ -22,33 +21,14 @@ type CommentsProps = {
 };
 
 const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
-  const queryKey = ["comments", ticketId];
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey,
-      queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
-      initialPageParam: undefined as string | undefined,
-      getNextPageParam: (lastPage) =>
-        lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
-      initialData: {
-        pages: [
-          {
-            list: paginatedComments.list,
-            metadata: paginatedComments.metadata,
-          },
-        ],
-        pageParams: [undefined],
-      },
-    });
-
-  const comments = data.pages.flatMap((page) => page.list);
-
-  const queryClient = useQueryClient();
-
-  const handleDeleteComment = () => queryClient.invalidateQueries({ queryKey });
-
-  const handleCreateComment = () => queryClient.invalidateQueries({ queryKey });
+  const {
+    comments,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    onDeleteComment,
+    onCreateComment,
+  } = usePaginatedComments(ticketId, paginatedComments);
 
   const { ref, inView } = useInView();
 
@@ -66,7 +46,7 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
         content={
           <CommentUpsertForm
             ticketId={ticketId}
-            onCreateComment={handleCreateComment}
+            onCreateComment={onCreateComment}
           />
         }
       />
@@ -81,7 +61,7 @@ const Comments = ({ ticketId, paginatedComments }: CommentsProps) => {
                     <CommentDeleteButton
                       key="0"
                       id={comment.id}
-                      onDeleteComment={handleDeleteComment}
+                      onDeleteComment={onDeleteComment}
                     />,
                   ]
                 : []),
