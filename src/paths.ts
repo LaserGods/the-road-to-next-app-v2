@@ -1,6 +1,9 @@
 export const accountPasswordPath = () => "/account/password";
 export const accountProfilePath = () => "/account/profile";
 
+export const attachmentDownloadPath = (attachmentId: string) =>
+  `/api/aws/s3/attachments/${attachmentId}`;
+
 export const commentEditPath = (ticketId: string, commentId: string) =>
   `/tickets/${ticketId}/${commentId}/edit`;
 

@@ -1,5 +1,5 @@
 import { EventSchemas, Inngest } from "inngest";
-import { AttachmentDeleteEventArgs } from "@/features/attachments/events/event-attachment-delete";
+import { AttachmentDeleteEventArgs } from "@/features/attachment/events/event-attachment-delete";
 import { InvitationCreatedEventArgs } from "@/features/invitations/events/event-invitation-created";
 import { PasswordResetEventArgs } from "@/features/password/events/event-password-reset";
 
