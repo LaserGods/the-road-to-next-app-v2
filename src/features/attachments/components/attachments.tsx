@@ -2,6 +2,7 @@ import { CardCompact } from "@/components/card-compact";
 import { AttachmentEntity } from "@/lib/generated/prisma/enums";
 import { getAttachments } from "../queries/get-attachments";
 import { AttachmentCreateForm } from "./attachment-create-form";
+import { AttachmentDeleteButton } from "./attachment-delete-button";
 import { AttachmentList } from "./attachment-list";
 
 type AttachmentsProps = {
@@ -18,7 +19,14 @@ const Attachments = async ({ entityId, entity, isOwner }: AttachmentsProps) => {
       description="Attach images or PDFs"
       content={
         <>
-          <AttachmentList attachments={attachments} />
+          <AttachmentList
+            attachments={attachments}
+            buttons={(attachmentId: string) => [
+              ...(isOwner
+                ? [<AttachmentDeleteButton key="0" id={attachmentId} />]
+                : []),
+            ]}
+          />
           {isOwner && (
             <AttachmentCreateForm entityId={entityId} entity={entity} />
           )}

@@ -3,14 +3,18 @@ import { AttachmentItem } from "./attachment-item";
 
 type AttachmentListProps = {
   attachments: Attachment[];
-  // buttons: (id: string) => React.ReactNode[];
+  buttons: (id: string) => React.ReactNode[];
 };
 
-const AttachmentList = ({ attachments }: AttachmentListProps) => {
+const AttachmentList = ({ attachments, buttons }: AttachmentListProps) => {
   return (
     <div className="mx-2 mb-4 flex flex-col gap-y-2">
       {attachments.map((attachment) => (
-        <AttachmentItem key={attachment.id} attachment={attachment} />
+        <AttachmentItem
+          key={attachment.id}
+          attachment={attachment}
+          buttons={buttons(attachment.id)}
+        />
       ))}
     </div>
   );
