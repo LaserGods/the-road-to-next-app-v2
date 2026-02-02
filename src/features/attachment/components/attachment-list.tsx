@@ -3,6 +3,7 @@ import { AttachmentItem } from "./attachment-item";
 
 type AttachmentListProps = {
   attachments: Attachment[];
+  // Using a render prop to pass in the buttons
   buttons: (id: string) => React.ReactNode[];
 };
 
