@@ -40,7 +40,7 @@ const SortSelect = ({ value, onChange, options }: SortSelectProps) => {
       onValueChange={handleSort}
       defaultValue={value.sortKey + "_" + value.sortValue}
     >
-      <SelectTrigger>
+      <SelectTrigger size="lg">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

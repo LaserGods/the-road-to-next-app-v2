@@ -51,7 +51,7 @@ const Pagination = ({
   const previousButton = (
     <Button
       variant="outline"
-      size="sm"
+      size="lg"
       disabled={pagination.page < 1}
       onClick={handlePreviousPage}
     >
@@ -62,7 +62,7 @@ const Pagination = ({
   const nextButton = (
     <Button
       variant="outline"
-      size="sm"
+      size="lg"
       disabled={!hasNextPage || isPending}
       onClick={handleNextPage}
     >
