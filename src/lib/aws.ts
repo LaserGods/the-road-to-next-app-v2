@@ -13,6 +13,9 @@ const s3 = new S3Client({
   credentials: awsCredentialsProvider({
     roleArn: getRoleArn(),
     roleSessionName: `vercel-${process.env.VERCEL_ENV || "development"}`,
+    clientConfig: {
+      region: process.env.AWS_BUCKET_REGION,
+    },
   }),
 });
 
