@@ -1,4 +1,4 @@
-import { ZodError } from "zod";
+import { flattenError, ZodError } from "zod";
 
 // Type representing the state of an action, such as form submission
 // T is the type of any additional data returned with the action
@@ -37,7 +37,7 @@ export const fromErrorToActionState = (
       status: "ERROR",
       message: "",
       payload: formData,
-      fieldErrors: error.flatten().fieldErrors,
+      fieldErrors: flattenError(error).fieldErrors,
       timestamp: Date.now(),
     };
   } else if (error instanceof Error) {
