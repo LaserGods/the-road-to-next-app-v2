@@ -36,6 +36,21 @@ const createAttachmentsSchema = z.object({
     .refine((files) => files.length !== 0, "File is required."),
 });
 
+const attachmentTargetSchema = z.discriminatedUnion("entity", [
+  z
+    .object({
+      entity: z.literal("TICKET"),
+      ticketId: z.string().min(1),
+    })
+    .strict(),
+  z
+    .object({
+      entity: z.literal("COMMENT"),
+      commentId: z.string().min(1),
+    })
+    .strict(),
+]);
+
 type CreateAttachmentsArgs = {
   entityId: string;
   entity: AttachmentEntity;
@@ -90,15 +105,19 @@ export const createAttachments = async (
       files: formData.getAll("files"),
     });
 
+    const attachmentTarget = attachmentTargetSchema.parse(
+      entity === "TICKET"
+        ? { entity, ticketId: entityId }
+        : { entity, commentId: entityId },
+    );
+
     for (const file of files) {
       const buffer = Buffer.from(await file.arrayBuffer());
 
       const attachment = await prisma.attachment.create({
         data: {
           name: file.name,
-          ...(entity === "TICKET" ? { ticketId: entityId } : {}),
-          ...(entity === "COMMENT" ? { commentId: entityId } : {}),
-          entity,
+          ...attachmentTarget,
         },
       });
 
