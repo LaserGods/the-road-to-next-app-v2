@@ -26,7 +26,8 @@ type SortSelectProps = {
 };
 
 const SortSelect = ({ value, onChange, options }: SortSelectProps) => {
-  const handleSort = (compositeKey: string) => {
+  const handleSort = (compositeKey: string | null) => {
+    if (compositeKey === null) return;
     const [sortKey, sortValue] = compositeKey.split("_");
 
     onChange({

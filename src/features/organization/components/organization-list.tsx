@@ -90,13 +90,17 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           );
 
           const detailButton = (
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger asChild>
-                <Button variant={"outline"} size={"icon"} asChild>
-                  <Link href={membershipsPath(org.id)}>
-                    <LucideArrowUpRightFromSquare className="size-4" />
-                  </Link>
-                </Button>
+            <Tooltip delay={100}>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant={"outline"}
+                    size={"icon"}
+                    render={<Link href={membershipsPath(org.id)} />}
+                  />
+                }
+              >
+                <LucideArrowUpRightFromSquare className="size-4" />
               </TooltipTrigger>
               <TooltipContent
                 variant={"outline"}
@@ -109,11 +113,11 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           );
 
           const editButton = (
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger asChild>
-                <Button variant={"outline"} size={"icon"}>
-                  <LucidePen className="size-4" />
-                </Button>
+            <Tooltip delay={100}>
+              <TooltipTrigger
+                render={<Button variant={"outline"} size={"icon"} />}
+              >
+                <LucidePen className="size-4" />
               </TooltipTrigger>
               <TooltipContent
                 variant={"outline"}
@@ -137,10 +141,12 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
           );
 
           const placeholder = (
-            <Tooltip delayDuration={50}>
-              <TooltipTrigger asChild>
-                <div className="focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-9 rounded-md bg-linear-[135deg,hsla(210,40%,96.1%,0.45),hsla(210,40%,96.1%,0.15)] outline-none focus-visible:ring-[3px]" />
-              </TooltipTrigger>
+            <Tooltip delay={50}>
+              <TooltipTrigger
+                render={
+                  <div className="focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-9 rounded-md bg-linear-[135deg,hsla(210,40%,96.1%,0.45),hsla(210,40%,96.1%,0.15)] outline-none focus-visible:ring-[3px]" />
+                }
+              />
               <TooltipContent
                 variant={"outline"}
                 typography={"mono"}

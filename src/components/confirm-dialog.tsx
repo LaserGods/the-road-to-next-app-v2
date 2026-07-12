@@ -93,10 +93,8 @@ const useConfirmDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <form action={formAction}>
-              <button type="submit">Confirm</button>
-            </form>
+          <AlertDialogAction render={<form action={formAction} />}>
+            <button type="submit">Confirm</button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

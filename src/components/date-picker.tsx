@@ -50,15 +50,19 @@ const DatePicker = ({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger id={id} className="w-full" asChild>
-        <Button
-          variant="outline"
-          className="h-10 justify-start rounded-md text-left font-normal"
-        >
-          <LucideCalendar className="mr-2 size-4" />
-          {formattedStringDate}
-          <input type="hidden" name={name} value={formattedStringDate} />
-        </Button>
+      <PopoverTrigger
+        id={id}
+        className="w-full"
+        render={
+          <Button
+            variant="outline"
+            className="h-10 justify-start rounded-md text-left font-normal"
+          />
+        }
+      >
+        <LucideCalendar className="mr-2 size-4" />
+        {formattedStringDate}
+        <input type="hidden" name={name} value={formattedStringDate} />
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar

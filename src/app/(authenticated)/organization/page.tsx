@@ -14,11 +14,9 @@ const OrganizationsPage = () => {
         title="Organizations"
         description="All your Organizations"
         actions={
-          <Button asChild>
-            <Link href={organizationCreatePath()}>
-              <LucidePlus className="size-4" />
-              Create Organization
-            </Link>
+          <Button render={<Link href={organizationCreatePath()} />}>
+            <LucidePlus className="size-4" />
+            Create Organization
           </Button>
         }
       />

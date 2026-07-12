@@ -20,34 +20,26 @@ type AccountDropdownProps = {
 const AccountDropdown = ({ user }: AccountDropdownProps) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger render={<Avatar className="cursor-pointer" />}>
+        <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel className="cursor-auto select-none">
           My Account
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href={accountProfilePath()}>
-            <LucideUser className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </Link>
+        <DropdownMenuItem render={<Link href={accountProfilePath()} />}>
+          <LucideUser className="mr-2 h-4 w-4" />
+          <span>Profile</span>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href={accountPasswordPath()}>
-            <LucideLock className="mr-2 h-4 w-4" />
-            <span>Password</span>
-          </Link>
+        <DropdownMenuItem render={<Link href={accountPasswordPath()} />}>
+          <LucideLock className="mr-2 h-4 w-4" />
+          <span>Password</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <form action={signOut}>
-            <LucideLogOut className="mr-2 h-4 w-4" />
-            <button type="submit">Sign Out</button>
-          </form>
+        <DropdownMenuItem render={<form action={signOut} />}>
+          <LucideLogOut className="mr-2 h-4 w-4" />
+          <button type="submit">Sign Out</button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

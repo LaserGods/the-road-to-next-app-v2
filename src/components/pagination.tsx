@@ -44,7 +44,8 @@ const Pagination = ({
     });
   };
 
-  const handleChangeSize = (size: string) => {
+  const handleChangeSize = (size: string | null) => {
+    if (size === null) return;
     onPagination({ page: 0, size: parseInt(size) });
   };
 

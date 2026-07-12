@@ -84,10 +84,12 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
           );
 
           const placeholder = (
-            <Tooltip delayDuration={50}>
-              <TooltipTrigger asChild>
-                <div className="focus-visible:border-ring focus-visible:ring-ring/50 size-9 rounded-md bg-linear-[135deg,hsla(210,40%,96.1%,0.45),hsla(210,40%,96.1%,0.15)] outline-none focus-visible:ring-[3px]" />
-              </TooltipTrigger>
+            <Tooltip delay={50}>
+              <TooltipTrigger
+                render={
+                  <div className="focus-visible:border-ring focus-visible:ring-ring/50 size-9 rounded-md bg-linear-[135deg,hsla(210,40%,96.1%,0.45),hsla(210,40%,96.1%,0.15)] outline-none focus-visible:ring-[3px]" />
+                }
+              />
               <TooltipContent
                 variant={"outline"}
                 typography={"mono"}

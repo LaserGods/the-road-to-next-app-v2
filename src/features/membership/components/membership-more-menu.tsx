@@ -62,10 +62,10 @@ const MembershipMoreMenu = ({
   return (
     <>
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button variant={"outline"} size={"icon"}>
-            <LucideUserCog className="size-4" />
-          </Button>
+        <DropdownMenuTrigger
+          render={<Button variant={"outline"} size={"icon"} />}
+        >
+          <LucideUserCog className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>Roles</DropdownMenuLabel>
@@ -78,7 +78,7 @@ const MembershipMoreMenu = ({
             <DropdownMenuRadioItem value="MEMBER">Member</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => setShowPermissionsDialog(true)}>
+          <DropdownMenuItem onClick={() => setShowPermissionsDialog(true)}>
             Customize Permissions...
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -30,11 +30,17 @@ const OrganizationTabs = () => {
   return (
     <Tabs value={pathName.split("/").at(-1)}>
       <TabsList>
-        <TabsTrigger value="memberships" asChild>
-          <Link href={membershipsPath(params.organizationId)}>Memberships</Link>
+        <TabsTrigger
+          value="memberships"
+          render={<Link href={membershipsPath(params.organizationId)} />}
+        >
+          Memberships
         </TabsTrigger>
-        <TabsTrigger value="invitations" asChild>
-          <Link href={invitationsPath(params.organizationId)}>Invitations</Link>
+        <TabsTrigger
+          value="invitations"
+          render={<Link href={invitationsPath(params.organizationId)} />}
+        >
+          Invitations
         </TabsTrigger>
       </TabsList>
     </Tabs>

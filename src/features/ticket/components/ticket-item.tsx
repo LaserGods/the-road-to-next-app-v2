@@ -40,19 +40,23 @@ const TicketItem = ({
   const canUpdateTicket = ticket.permissions["ticket:update"] ?? false;
 
   const detailButton = (
-    <Button variant="outline" size="icon" asChild>
-      <Link prefetch href={ticketPath(ticket.id)}>
-        <LucideArrowUpRightFromSquare className="size-4" />
-      </Link>
+    <Button
+      variant="outline"
+      size="icon"
+      render={<Link prefetch href={ticketPath(ticket.id)} />}
+    >
+      <LucideArrowUpRightFromSquare className="size-4" />
     </Button>
   );
 
   const editButton = ticket.isOwner ? (
     canUpdateTicket ? (
-      <Button variant="outline" size="icon" asChild>
-        <Link prefetch href={ticketEditPath(ticket.id)}>
-          <LucidePencil className="size-4" />
-        </Link>
+      <Button
+        variant="outline"
+        size="icon"
+        render={<Link prefetch href={ticketEditPath(ticket.id)} />}
+      >
+        <LucidePencil className="size-4" />
       </Button>
     ) : (
       <Tooltip>
