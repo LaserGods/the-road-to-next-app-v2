@@ -6,6 +6,7 @@ declare global {
       VERCEL_OIDC_TOKEN: string;
       AWS_BUCKET_NAME: string;
       AWS_BUCKET_REGION: string;
+      AWS_SES_REGION: string;
       AWS_ROLE_ARN_DEV: string;
       AWS_ROLE_ARN: string;
     }

@@ -81,8 +81,8 @@ Prerequisites:
 Implementation:
 
 - [x] Add [react email](https://react.email/) library for creating email templates using React and TypeScript
-- [x] Implement email sending service with [Resend](https://resend.com/)
-- [x] Connect your domain to Resend by adding the DNS records to your domain registrar
+- [x] Implement email sending service with [AWS SES](https://aws.amazon.com/ses/) via the [React Email AWS SES integration](https://react.email/docs/integrations/aws-ses)
+- [x] Verify your domain in AWS SES by adding the DNS records to your domain registrar
 
 #### Message Queue
 
