@@ -23,6 +23,19 @@
   `<Button render={<Link href=.. />}>X</Button>` (child's children hoisted
   to the Button).
 
+## RSC build fix (follow-up, 2026-07-12)
+
+The base-nova registry ships `button.tsx` WITHOUT `"use client"`, but this app
+imports `Button` in server components (`organization/page.tsx`,
+`tickets/[ticketId]/not-found.tsx`, `onboarding/.../page.tsx`,
+`ticket-item.tsx`, `organization-list.tsx`). `@base-ui/react/button` evaluates
+`React.createContext` at module load (via `internals/use-button/useButton` →
+`composite/root/CompositeRootContext`), which throws in the RSC/react-server
+runtime → `TypeError: (0 , g.createContext) is not a function` during
+`next build` "collect page data". Added `"use client"` to `button.tsx`.
+Safe: the only `buttonVariants` callers are client modules. Verified: full
+`next build` passes.
+
 ## Left alone
 
 Nothing button-specific left behind.

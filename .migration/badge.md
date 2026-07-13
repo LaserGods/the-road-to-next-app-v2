@@ -12,6 +12,14 @@
     nested inside a TooltipTrigger —
     `<TooltipTrigger render={<Badge render={<Link href={organizationsPath()} />} />}>`.
 
+## RSC build fix (follow-up, 2026-07-12)
+
+`badge.tsx` had no `"use client"` but is rendered by a server component
+(`active-organization-badge.tsx`). `Badge` calls the `useRender` hook, which
+can't run in the RSC/react-server runtime. Added `"use client"` (surfaced
+right after the `button`/`breadcrumb` `createContext` fixes). Safe:
+`badgeVariants` has no external callers. Verified: full `next build` passes.
+
 ## Left alone
 
 Nothing badge-specific left behind.

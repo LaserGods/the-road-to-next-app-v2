@@ -13,6 +13,16 @@
   - `src/components/breadcrumbs.tsx`: `BreadcrumbLink render={<Link/>}` and a
     `DropdownMenuItem render={<Link/>}` in the dropdown breadcrumb variant.
 
+## RSC build fix (follow-up, 2026-07-12)
+
+`breadcrumb.tsx` had no `"use client"` but is rendered by a server component
+(`breadcrumbs.tsx`). Two RSC problems: (1) it imports `CaretRightIcon`/
+`DotsThreeIcon` from `@phosphor-icons/react`, whose icon module calls
+`React.createContext` (IconContext) at load; (2) `BreadcrumbLink` calls the
+`useRender` hook. Both are illegal in the react-server runtime and broke
+`next build` "collect page data" for `/tickets/[ticketId]/edit`. Added
+`"use client"`. Verified: full `next build` passes.
+
 ## Left alone
 
 Nothing breadcrumb-specific left behind.
