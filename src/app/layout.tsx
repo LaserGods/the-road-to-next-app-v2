@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Geist,Oxanium } from "next/font/google";
 import localFont from "next/font/local";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Header } from "@/app/_navigation/header";
@@ -8,9 +9,8 @@ import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ActiveOrganizationBadge } from "@/features/organization/components/active-organization-badge";
-import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
-import { Oxanium, Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
 
 const geistHeading = Geist({subsets:['latin'],variable:'--font-heading'});
 
