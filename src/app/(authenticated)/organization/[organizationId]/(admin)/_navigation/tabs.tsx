@@ -31,12 +31,14 @@ const OrganizationTabs = () => {
     <Tabs value={pathName.split("/").at(-1)}>
       <TabsList>
         <TabsTrigger
+          nativeButton={false}
           value="memberships"
           render={<Link href={membershipsPath(params.organizationId)} />}
         >
           Memberships
         </TabsTrigger>
         <TabsTrigger
+          nativeButton={false}
           value="invitations"
           render={<Link href={invitationsPath(params.organizationId)} />}
         >

@@ -3,8 +3,9 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Heading } from "@/components/heading";
 import { Spinner } from "@/components/spinner";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { OrganizationList } from "@/features/organization/components/organization-list";
+import { cn } from "@/lib/utils";
 import { organizationCreatePath } from "@/paths";
 
 const OrganizationsPage = () => {
@@ -14,10 +15,13 @@ const OrganizationsPage = () => {
         title="Organizations"
         description="All your Organizations"
         actions={
-          <Button render={<Link href={organizationCreatePath()} />}>
+          <Link
+            href={organizationCreatePath()}
+            className={cn(buttonVariants({ variant: "default" }))}
+          >
             <LucidePlus className="size-4" />
             Create Organization
-          </Button>
+          </Link>
         }
       />
 

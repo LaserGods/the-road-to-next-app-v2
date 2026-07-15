@@ -14,6 +14,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
@@ -68,15 +69,18 @@ const MembershipMoreMenu = ({
           <LucideUserCog className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>Roles</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup
-            value={membershipRole}
-            onValueChange={handleUpdateMembershipRole}
-          >
-            <DropdownMenuRadioItem value="ADMIN">Admin</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="MEMBER">Member</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel>Roles</DropdownMenuLabel>
+            <DropdownMenuRadioGroup
+              value={membershipRole}
+              onValueChange={handleUpdateMembershipRole}
+            >
+              <DropdownMenuRadioItem value="ADMIN">Admin</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="MEMBER">
+                Member
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setShowPermissionsDialog(true)}>
             Customize Permissions...

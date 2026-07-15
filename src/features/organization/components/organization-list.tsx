@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { SubmitButton } from "@/components/form/submit-button";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/tooltip";
 import { MembershipDeleteButton } from "@/features/membership/components/membership-delete-button";
 import { getPermissions } from "@/features/permission/queries/get-permissions";
+import { cn } from "@/lib/utils";
 import { membershipsPath } from "@/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
 import { OrganizationDeleteButton } from "./organization-delete-button";
@@ -93,15 +94,16 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
             <Tooltip delay={100}>
               <TooltipTrigger
                 render={
-                  <Button
-                    variant={"outline"}
-                    size={"icon"}
-                    render={<Link href={membershipsPath(org.id)} />}
-                  />
+                  <Link
+                    href={membershipsPath(org.id)}
+                    className={cn(
+                      buttonVariants({ variant: "outline", size: "icon" }),
+                    )}
+                  >
+                    <LucideArrowUpRightFromSquare />
+                  </Link>
                 }
-              >
-                <LucideArrowUpRightFromSquare className="size-4" />
-              </TooltipTrigger>
+              />
               <TooltipContent
                 variant={"outline"}
                 typography={"mono"}

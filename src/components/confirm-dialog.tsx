@@ -1,3 +1,4 @@
+import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog";
 import {
   cloneElement,
   useActionState,
@@ -8,7 +9,6 @@ import {
 import { toast } from "sonner";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -16,8 +16,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { cn } from "@/lib/utils";
 import { useActionFeedback } from "./form/hooks/use-action-feedback";
 import { ActionState, EMPTY_ACTION_STATE } from "./form/utils/to-action-state";
+import { buttonVariants } from "./ui/button";
 
 type UseConfirmDialogArgs = {
   title?: string;
@@ -93,9 +95,19 @@ const useConfirmDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction render={<form action={formAction} />}>
-            <button type="submit">Confirm</button>
-          </AlertDialogAction>
+          <AlertDialogPrimitive.Close
+            nativeButton={false}
+            render={
+              <form action={formAction}>
+                <button
+                  type="submit"
+                  className={cn(buttonVariants({ variant: "destructive" }))}
+                >
+                  Confirm
+                </button>
+              </form>
+            }
+          />
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

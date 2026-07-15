@@ -56,7 +56,7 @@ const DatePicker = ({
         render={
           <Button
             variant="outline"
-            className="h-10 justify-start rounded-md text-left font-normal"
+            className="h-9 justify-start rounded-md text-left font-normal"
           />
         }
       >

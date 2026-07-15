@@ -11,10 +11,15 @@ const AccountTabs = () => {
   return (
     <Tabs value={pathName.split("/").at(-1)}>
       <TabsList>
-        <TabsTrigger value="profile" render={<Link href={accountProfilePath()} />}>
+        <TabsTrigger
+          nativeButton={false}
+          value="profile"
+          render={<Link href={accountProfilePath()} />}
+        >
           Profile
         </TabsTrigger>
         <TabsTrigger
+          nativeButton={false}
           value="password"
           render={<Link href={accountPasswordPath()} />}
         >

@@ -44,15 +44,14 @@ const Pagination = ({
     });
   };
 
-  const handleChangeSize = (size: string | null) => {
-    if (size === null) return;
+  const handleChangeSize = (size: string) => {
     onPagination({ page: 0, size: parseInt(size) });
   };
 
   const previousButton = (
     <Button
       variant="outline"
-      size="sm"
+      size="lg"
       disabled={pagination.page < 1}
       onClick={handlePreviousPage}
     >
@@ -63,7 +62,7 @@ const Pagination = ({
   const nextButton = (
     <Button
       variant="outline"
-      size="sm"
+      size="lg"
       disabled={!hasNextPage || isPending}
       onClick={handleNextPage}
     >
@@ -74,7 +73,9 @@ const Pagination = ({
   const sizeButton = (
     <Select
       defaultValue={pagination.size.toString()}
-      onValueChange={handleChangeSize}
+      onValueChange={(value) =>
+        handleChangeSize(value ?? pagination.size.toString())
+      }
     >
       <SelectTrigger className="h-9">
         <SelectValue />

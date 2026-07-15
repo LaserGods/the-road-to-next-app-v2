@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -20,27 +21,34 @@ type AccountDropdownProps = {
 const AccountDropdown = ({ user }: AccountDropdownProps) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Avatar className="cursor-pointer" />}>
+      <DropdownMenuTrigger
+        nativeButton={false}
+        render={<Avatar className="cursor-pointer" />}
+      >
         <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel className="cursor-auto select-none">
-          My Account
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem render={<Link href={accountProfilePath()} />}>
-          <LucideUser className="mr-2 h-4 w-4" />
-          <span>Profile</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem render={<Link href={accountPasswordPath()} />}>
-          <LucideLock className="mr-2 h-4 w-4" />
-          <span>Password</span>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem render={<form action={signOut} />}>
-          <LucideLogOut className="mr-2 h-4 w-4" />
-          <button type="submit">Sign Out</button>
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="cursor-auto select-none">
+            My Account
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem render={<Link href={accountProfilePath()} />}>
+            <LucideUser className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem render={<Link href={accountPasswordPath()} />}>
+            <LucideLock className="mr-2 h-4 w-4" />
+            <span>Password</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem render={<form action={signOut} />}>
+            <LucideLogOut className="mr-2 h-4 w-4" />
+            <button type="submit">Sign Out</button>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

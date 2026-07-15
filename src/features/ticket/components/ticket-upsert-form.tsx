@@ -34,7 +34,12 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
   };
 
   return (
-    <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
+    <Form
+      action={action}
+      actionState={actionState}
+      onSuccess={handleSuccess}
+      className="gap-y-4"
+    >
       <Label htmlFor="title">Title</Label>
       <Input
         id="title"
@@ -57,7 +62,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
       <FieldError actionState={actionState} name="content" />
 
       <div className="mb-1 flex gap-x-2">
-        <div className="w-1/2">
+        <div className="flex w-1/2 flex-col gap-y-1">
           <Label htmlFor="deadline">Deadline</Label>
           <DatePicker
             id="deadline"
@@ -72,7 +77,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
           />
           <FieldError actionState={actionState} name="deadline" />
         </div>
-        <div className="w-1/2">
+        <div className="flex w-1/2 flex-col gap-y-1">
           <Label htmlFor="bounty">Bounty ($)</Label>
           <Input
             id="bounty"
@@ -83,6 +88,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
               (actionState.payload?.get("bounty") as string) ??
               (ticket?.bounty ? fromCent(ticket?.bounty) : "")
             }
+            className="h-9"
           />
           <FieldError actionState={actionState} name="bounty" />
         </div>
