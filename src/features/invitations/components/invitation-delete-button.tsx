@@ -69,7 +69,7 @@ const InvitationDeleteButton = ({
   return (
     <>
       <Tooltip>
-        <TooltipTrigger asChild>{deleteButton}</TooltipTrigger>
+        <TooltipTrigger render={deleteButton} />
         <TooltipContent
           variant="destructive"
           typography="mono"

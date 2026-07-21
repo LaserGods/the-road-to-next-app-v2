@@ -38,13 +38,15 @@ const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => {
 
           if (breadcrumb.href) {
             breadcrumbItem = (
-              <BreadcrumbLink asChild>
-                <Link
-                  href={breadcrumb.href}
-                  className="flex items-center gap-1"
-                >
-                  {breadcrumb.title}
-                </Link>
+              <BreadcrumbLink
+                render={
+                  <Link
+                    href={breadcrumb.href}
+                    className="flex items-center gap-1"
+                  />
+                }
+              >
+                {breadcrumb.title}
               </BreadcrumbLink>
             );
           }
@@ -58,8 +60,11 @@ const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
                   {breadcrumb.dropdown.map((item) => (
-                    <DropdownMenuItem key={item.href} asChild>
-                      <Link href={item.href}>{item.title}</Link>
+                    <DropdownMenuItem
+                      key={item.href}
+                      render={<Link href={item.href} />}
+                    >
+                      {item.title}
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>

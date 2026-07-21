@@ -77,14 +77,12 @@ const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
     deleteButton
   ) : (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <DropdownMenuItem className="opacity-50">
-          <LucideTrash className="h-4 w-4" />
-          <span>
-            Delete
-            <em> - not authorized</em>
-          </span>
-        </DropdownMenuItem>
+      <TooltipTrigger render={<DropdownMenuItem className="opacity-50" />}>
+        <LucideTrash className="h-4 w-4" />
+        <span>
+          Delete
+          <em> - not authorized</em>
+        </span>
       </TooltipTrigger>
       <TooltipContent
         variant={"secondary"}
@@ -101,7 +99,7 @@ const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
       {deleteDialog}
 
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+        <DropdownMenuTrigger render={trigger} />
         <DropdownMenuContent className="w-56" side="right">
           {ticketStatusRadioGroupItems}
           <DropdownMenuSeparator />

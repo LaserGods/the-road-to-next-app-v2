@@ -36,14 +36,12 @@ const ActiveOrganizationBadge = async () => {
 
   return (
     <div className="flex items-center gap-x-2">
-      <Tooltip delayDuration={300}>
-        <TooltipTrigger asChild>
-          <Badge asChild>
-            <Link href={organizationsPath()}>
-              <LucideArrowLeftRight />
-              {activeOrganization.name}
-            </Link>
-          </Badge>
+      <Tooltip delay={300}>
+        <TooltipTrigger
+          render={<Badge render={<Link href={organizationsPath()} />} />}
+        >
+          <LucideArrowLeftRight />
+          {activeOrganization.name}
         </TooltipTrigger>
         <TooltipContent>
           <span className="font-medium">Switch organizations</span>

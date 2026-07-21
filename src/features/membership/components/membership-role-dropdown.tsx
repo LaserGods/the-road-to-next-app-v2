@@ -48,11 +48,9 @@ const MembershipRoleDropdown = ({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant={"ghost"}>
-          {membershipRole}
-          <LucideMoreHorizontal className="size-4" />
-        </Button>
+      <DropdownMenuTrigger render={<Button variant={"ghost"} />}>
+        {membershipRole}
+        <LucideMoreHorizontal className="size-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>Roles</DropdownMenuLabel>

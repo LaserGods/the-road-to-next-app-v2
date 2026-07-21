@@ -8,6 +8,6 @@ export default defineConfig({
     seed: "pnpm exec tsx prisma/private-seed.ts",
   },
   datasource: {
-    url: env("DIRECT_URL"),
+    url: env("DATABASE_URL"),
   },
 });

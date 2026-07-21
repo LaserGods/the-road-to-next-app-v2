@@ -1,5 +1,5 @@
 import EmailInvitation from "@/emails/invitation/email-invitation";
-import { resend } from "@/lib/resend";
+import { sendEmail } from "@/lib/ses";
 
 export const sendEmailInvitation = async (
   username: string,
@@ -7,7 +7,7 @@ export const sendEmailInvitation = async (
   email: string,
   emailInvitationLink: string,
 ) => {
-  return await resend.emails.send({
+  return await sendEmail({
     from: "no-reply@app.ticketbounty.com",
     to: email,
     subject: `Invitation to ${organizationName} on TicketBounty`,

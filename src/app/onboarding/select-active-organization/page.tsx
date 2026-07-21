@@ -26,11 +26,9 @@ const SelectActiveOrganizationPage = async () => {
         title="Select Organization"
         description="Pick one organization to work with"
         actions={
-          <Button asChild>
-            <Link href={onboardingPath()}>
-              <LucidePlus className="size-4" />
-              Create Organization
-            </Link>
+          <Button render={<Link href={onboardingPath()} />}>
+            <LucidePlus className="size-4" />
+            Create Organization
           </Button>
         }
       />

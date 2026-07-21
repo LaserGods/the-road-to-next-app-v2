@@ -1,11 +1,10 @@
-import clsx from "clsx";
 import {
   LucideArrowUpRightFromSquare,
   LucideMoreVertical,
   LucidePencil,
 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -18,6 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TICKET_ICONS } from "../constants";
@@ -40,24 +40,28 @@ const TicketItem = ({
   const canUpdateTicket = ticket.permissions["ticket:update"] ?? false;
 
   const detailButton = (
-    <Button variant="outline" size="icon" asChild>
-      <Link prefetch href={ticketPath(ticket.id)}>
-        <LucideArrowUpRightFromSquare className="size-4" />
-      </Link>
-    </Button>
+    <Link
+      prefetch
+      href={ticketPath(ticket.id)}
+      className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+    >
+      <LucideArrowUpRightFromSquare className="size-4" />
+    </Link>
   );
 
   const editButton = ticket.isOwner ? (
     canUpdateTicket ? (
-      <Button variant="outline" size="icon" asChild>
-        <Link prefetch href={ticketEditPath(ticket.id)}>
-          <LucidePencil className="size-4" />
-        </Link>
-      </Button>
+      <Link
+        prefetch
+        href={ticketEditPath(ticket.id)}
+        className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
+      >
+        <LucidePencil />
+      </Link>
     ) : (
       <Tooltip>
         <TooltipTrigger>
-          <div className="focus-visible:border-ring focus-visible:ring-ring/50 bg-background dark:bg-input/30 dark:border-input pointer-events-none inline-flex size-9 shrink-0 items-center justify-center gap-2 rounded-md border text-sm font-medium whitespace-nowrap opacity-50 shadow-xs transition-all outline-none focus-visible:ring-[3px] [&_svg]:shrink-0">
+          <div className="focus-visible:border-ring focus-visible:ring-ring/50 bg-background dark:bg-input/30 dark:border-input pointer-events-none inline-flex size-8 shrink-0 items-center justify-center gap-2 rounded-md border text-sm font-medium whitespace-nowrap opacity-50 shadow-xs transition-all outline-none focus-visible:ring-[3px] [&_svg]:shrink-0">
             <LucidePencil className="size-4" />
           </div>
         </TooltipTrigger>
@@ -77,7 +81,7 @@ const TicketItem = ({
       ticket={ticket}
       trigger={
         <Button variant="outline" size="icon">
-          <LucideMoreVertical className="size-4" />
+          <LucideMoreVertical />
         </Button>
       }
     />
@@ -85,7 +89,7 @@ const TicketItem = ({
 
   return (
     <div
-      className={clsx("flex w-full flex-col gap-y-4", {
+      className={cn("flex w-full flex-col gap-y-4", {
         "max-w-[580px]": isDetail,
         "max-w-[420px]": !isDetail,
       })}
@@ -100,7 +104,7 @@ const TicketItem = ({
           </CardHeader>
           <CardContent>
             <span
-              className={clsx("whitespace-break-spaces", {
+              className={cn("whitespace-break-spaces", {
                 "line-clamp-3": !isDetail,
               })}
             >

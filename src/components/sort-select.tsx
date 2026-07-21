@@ -26,7 +26,8 @@ type SortSelectProps = {
 };
 
 const SortSelect = ({ value, onChange, options }: SortSelectProps) => {
-  const handleSort = (compositeKey: string) => {
+  const handleSort = (compositeKey: string | null) => {
+    if (compositeKey === null) return;
     const [sortKey, sortValue] = compositeKey.split("_");
 
     onChange({
@@ -35,10 +36,16 @@ const SortSelect = ({ value, onChange, options }: SortSelectProps) => {
     });
   };
 
+  const items = options.map((option) => ({
+    value: option.sortKey + "_" + option.sortValue,
+    label: option.label,
+  }));
+
   return (
     <Select
+      items={items}
       onValueChange={handleSort}
-      defaultValue={value.sortKey + "_" + value.sortValue}
+      value={value.sortKey + "_" + value.sortValue}
     >
       <SelectTrigger>
         <SelectValue />

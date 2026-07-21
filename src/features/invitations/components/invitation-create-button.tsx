@@ -40,11 +40,9 @@ const InvitationCreateButton = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <LucidePlus className="size-4" />
-          Invite Member
-        </Button>
+      <DialogTrigger render={<Button />}>
+        <LucidePlus className="size-4" />
+        Invite Member
       </DialogTrigger>
       <DialogContent className="max-w-lg">
         <DialogHeader>
